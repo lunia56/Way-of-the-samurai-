@@ -1,0 +1,15 @@
+.sidebar {
+    grid-area: n;
+    background-color: #f3f4d4;
+    padding: 20px;
+
+}
+
+.item a {
+    color: #919188;
+    text-decoration:none;
+}
+
+.item a.active {
+    color: coral;
+}
