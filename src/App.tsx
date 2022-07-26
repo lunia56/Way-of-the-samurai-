@@ -18,11 +18,11 @@ function App() {
                 <Header/>
                 <Navbar/>
                 <div className="app-wrapper-content">
-                    <Route path="/Dialogs" component={Dialogs} />
-                    <Route path="/Profile" component={Profile} />
-                    <Route path="/News" component={News} />
-                    <Route path="/Music" component={Music} />
-                    <Route path="/Settings/Settings" component={Settings} />
+                    <Route /*exact*/ path="/dialogs" component={Dialogs} />
+                    <Route path="/profile" component={Profile} />
+                    <Route path="/news" component={News} />
+                    <Route path="/music" component={Music} />
+                    <Route path="/settings/settings" component={Settings} />
 
                 </div>
             </div>
