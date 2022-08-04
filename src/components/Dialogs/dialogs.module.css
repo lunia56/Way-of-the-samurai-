@@ -3,17 +3,4 @@
     grid-template-columns: 2fr 10fr;
 }
 
-.dialogItems {
-    padding: 10px;
-}
 
-.dialogItems .active {
-    color: coral;
-}
-
-.messages {
-    padding: 20px;
-}
-
-.message {
-}

@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import Header from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
 import Profile from './components/Profile/Profile';
@@ -8,9 +8,13 @@ import {BrowserRouter, Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
+ import {StateType} from './redux/state';
+ import Friends from './components/Friends/Friends';
 
-function App() {
-
+type AppType={
+    state:StateType
+}
+function App(props:AppType) {
 
     return (
         <BrowserRouter>
@@ -18,11 +22,14 @@ function App() {
                 <Header/>
                 <Navbar/>
                 <div className="app-wrapper-content">
-                    <Route /*exact*/ path="/dialogs" component={Dialogs} />
-                    <Route path="/profile" component={Profile} />
-                    <Route path="/news" component={News} />
-                    <Route path="/music" component={Music} />
-                    <Route path="/settings/settings" component={Settings} />
+                    <Route /*exact*/ path="/dialogs" render={()=>
+                        <Dialogs state ={props.state.dialogPage }/>} />
+                    <Route path="/profile" render={()=>
+                        <Profile state={props.state.profilePage}/>} />
+                    <Route path="/news" render={News} />
+                    <Route path="/music" render={Music} />
+                    <Route path="/settings/settings" render={Settings} />
+                    <Route path={"/friends"} render ={()=><Friends/>}/>
 
                 </div>
             </div>

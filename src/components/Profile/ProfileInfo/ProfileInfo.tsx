@@ -1,14 +1,14 @@
 import React from "react";
-import classes from "./ProfileInfo.module.css"
-// import "../img/picture"
+import s from "./ProfileInfo.module.css"
+import image  from "../../../img/picture.jpg"
 
 function ProfileInfo() {
     return (
 
-        <div>
-            <img src="https://art-lemon.com/data/blog/etapy-testirovanya-sayta.jpg" alt="картинка" />
+        <div >
+            <img src={image} alt={'картинка'} className={s.img}/>
 
-            <div> Ava+decription</div>
+            <div className={s.content}> Ava+decription</div>
         </div>);
 }
 

@@ -1,17 +1,33 @@
 import React from 'react';
-import Post from "./Post/Post"
+import Post from './Post/Post'
+import s from './posts.module.css'
+import {PostsType} from '../../../redux/state';
 
-function Posts() {
+
+type PostsPropsType ={
+    posts:PostsType[]
+}
+
+function Posts(props:PostsPropsType) {
+
+    const dialogs = props.posts.map((p,i)=> {
+            return <Post key={i} message={p.message} likesCount={p.likesCount}/>
+        })
+
     return (
         <>
-            <div> my Posts
-                <div> new post </div>
+            <div className={s.postsBlock}><h3>my Posts</h3>
                 <div>
-                    <textarea name="newPost"></textarea>
-                    <button>Добавить пост</button>
+                    <div>
+                        <textarea name="newPost"></textarea>
+                    </div>
+                    <div>
+                        <button>Добавить пост</button>
+                    </div>
                 </div>
-                <Post message="Hello React" likes={15} />
-                <Post message="My First Post" likes={20} />
+                <div className={s.posts}>
+                    {dialogs}
+                </div>
             </div>
         </>
     );

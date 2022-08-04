@@ -1,19 +1,20 @@
 import React from 'react';
-import classes from "./Post.module.css"
+import s  from "./Post.module.css"
+import Image from "../../../../img/logoPost.jpg";
 
 type PostPropsType = {
     message: string
-    likes: number
+    likesCount: number
 }
 
 function Post(props: PostPropsType) {
     return (
         <>
-            <div className={classes.item}>
-                <img className={classes.style} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROtKnm8n12pXCSJhru8ltv5fKe2BcpXWoxGA&usqp=CAU"/>
+            <div className={s.item}>
+                <img className={s.style} src={Image}/>
 
                 {props.message}</div>
-            <div> Нравится {props.likes}</div>
+            <div> Нравится {props.likesCount}</div>
         </>
     );
 }
