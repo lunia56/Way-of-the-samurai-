@@ -1,35 +1,36 @@
-import imageDog from "../img/dog.jpg"
-import imageChiken from "../img/chiken.jpg"
-import imageMonkey from "../img/monkey.jpg"
-import imageYasher from "../img/yasher.jpg"
+import imageDog from '../img/dog.jpg'
+import imageChiken from '../img/chiken.jpg'
+import imageMonkey from '../img/monkey.jpg'
+import imageYasher from '../img/yasher.jpg'
+import {v1} from 'uuid';
+import {rerenderEntireTree} from '../render';
 
 
 export type StateType = {
     profilePage: ProfilePageType
-    dialogPage:DialogPageType
-    sidebar:SidebarType
+    dialogPage: DialogPageType
+    sidebar: SidebarType
 }
-export type SidebarType ={
-
+export type SidebarType = {}
+export type ProfilePageType = {
+    posts: PostType[]
+    newPostText: string
 }
-export type ProfilePageType ={
-    posts: PostsType[]
-}
-export type DialogPageType ={
+export type DialogPageType = {
     dialogsData: DialogsDataType[]
-    messageData:MessageDataType[]
+    messageData: MessageDataType[]
 }
 export type MessageDataType = {
-    id: number
+    id: string
     message: string
 
 }
 export type DialogsDataType = {
-    id: number
+    id: string
     name: string
 }
-export type PostsType = {
-    id: number
+export type PostType = {
+    id: string
     message: string
     likesCount: number
 }
@@ -38,38 +39,52 @@ export type PostsType = {
 export let state: StateType = {
     profilePage: {
         posts: [
-            {id: 1, message: 'Hi, How are you', likesCount: 15},
-            {id: 2, message: 'My First Post', likesCount: 4},
-            {id: 3, message: 'How is your it-kamasutra?', likesCount: 5},
-            {id: 4, message: 'Yo-hi', likesCount: 6},
-            {id: 5, message: '!', likesCount: 15},
-            {id: 6, message: '?', likesCount: 15}
-        ]
+            {id: v1(), message: 'Hi, How are you', likesCount: 15},
+            {id: v1(), message: 'My First Post', likesCount: 4},
+            {id: v1(), message: 'How is your it-kamasutra?', likesCount: 5},
+            {id: v1(), message: 'Yo-hi', likesCount: 6},
+            {id: v1(), message: '!', likesCount: 15},
+            {id: v1(), message: '?', likesCount: 15}
+        ],
+        newPostText: ''
     },
     dialogPage: {
         dialogsData: [
-            {id: 1, name: 'Ilya'},
-            {id: 2, name: 'Andrew'},
-            {id: 3, name: 'Sveta'},
-            {id: 4, name: 'Sasha'},
-            {id: 5, name: 'Victor'},
-            {id: 6, name: 'Valera'}
+            {id: v1(), name: 'Ilya'},
+            {id: v1(), name: 'Andrew'},
+            {id: v1(), name: 'Sveta'},
+            {id: v1(), name: 'Sasha'},
+            {id: v1(), name: 'Victor'},
+            {id: v1(), name: 'Valera'}
         ],
         messageData: [
-            {id: 1, message: 'Hi'},
-            {id: 2, message: 'Yo'},
-            {id: 3, message: 'How is your it-kamasutra?'},
-            {id: 4, message: 'Yo-hi'},
-            {id: 5, message: '!'},
-            {id: 6, message: '?'}
+            {id: v1(), message: 'Hi'},
+            {id: v1(), message: 'Yo'},
+            {id: v1(), message: 'How is your it-kamasutra?'},
+            {id: v1(), message: 'Yo-hi'},
+            {id: v1(), message: '!'},
+            {id: v1(), message: '?'}
         ]
     },
-    sidebar:{}
+    sidebar: {}
 }
-
-    // message: messageData,
-    // dialogs: dialogsData,
-    // posts: posts
+export const addPost = () => {
+    const newPost: PostType = {
+        id: v1(),
+        message: state.profilePage.newPostText,
+        likesCount: 0
+    };
+    state.profilePage.posts.push(newPost)
+    updateNewPostText('')
+    rerenderEntireTree(state)
+}
+export const updateNewPostText = (newText: string) => {
+    state.profilePage.newPostText = newText
+    rerenderEntireTree(state)
+}
+// message: messageData,
+// dialogs: dialogsData,
+// posts: posts
 
 // let
 //     let

@@ -3,8 +3,8 @@ import s from "./DialogItem.module.css"
 import {NavLink} from 'react-router-dom';
 import image from "../../../img/yasher.jpg"
 export type DialogType ={
+    id:string
     name:string
-    id:number
 }
 const DialogItem = (props:DialogType) => {
     return (
