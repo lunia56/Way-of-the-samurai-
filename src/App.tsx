@@ -8,7 +8,7 @@ import {BrowserRouter, Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
- import {StateType, updateNewPostText} from './redux/state';
+ import {StateType} from './redux/state';
  import Friends from './components/Friends/Friends';
 
 type AppType={
@@ -27,6 +27,7 @@ function App(props:AppType) {
                     <Route /*exact*/ path="/dialogs" render={()=>
                         <Dialogs state ={props.state.dialogPage }/>} />
                     <Route path="/profile" render={()=>
+                        // <Profile profilePage={props.state.profilePage} addPost={props.addPost.bind(props.state)} updateNewPostText={props.updateNewPostText.bind(props.state)}/>} />
                         <Profile profilePage={props.state.profilePage} addPost={props.addPost} updateNewPostText={props.updateNewPostText}/>} />
                     <Route path="/news" render={News} />
                     <Route path="/music" render={Music} />
