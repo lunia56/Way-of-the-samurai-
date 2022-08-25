@@ -1,14 +1,13 @@
-import React, {ChangeEvent, LegacyRef, useRef} from 'react';
+import React, {ChangeEvent} from 'react';
 import Post from './Post/Post'
 import s from './posts.module.css'
-import {PostType} from '../../../redux/state';
+import {ActionType, AddPostActionCreator, ChangePostTextActionCreator, PostType} from '../../../redux/state';
 
 
 type PostsPropsType = {
     posts: PostType[]
     newPostText: string
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    dispatch: (action: ActionType) => void
 }
 
 function Posts(props: PostsPropsType) {
@@ -17,11 +16,11 @@ function Posts(props: PostsPropsType) {
         return <Post key={i} message={p.message} likesCount={p.likesCount}/>
     })
 
-    const onClickHandler = () => {
-        props.addPost()
+    const AddPostHandler = () => {
+        props.dispatch(AddPostActionCreator())
     }
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewPostText(e.currentTarget.value)
+    const updatePostTextHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+       props.dispatch(ChangePostTextActionCreator(e.currentTarget.value))
     }
     return (
         <>
@@ -29,10 +28,10 @@ function Posts(props: PostsPropsType) {
                 <div>
                     <div>
                         <textarea value={props.newPostText}
-                                  onChange={onChangeHandler}/>
+                                  onChange={updatePostTextHandler}/>
                     </div>
                     <div>
-                        <button onClick={onClickHandler}>Добавить пост</button>
+                        <button onClick={AddPostHandler}>Добавить пост</button>
                     </div>
                 </div>
                 <div className={s.posts}>

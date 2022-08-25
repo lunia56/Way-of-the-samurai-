@@ -8,13 +8,12 @@ import {BrowserRouter, Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
- import {StateType} from './redux/state';
+ import {ActionType, StateType, store} from './redux/state';
  import Friends from './components/Friends/Friends';
 
 type AppType={
     state:StateType
-    addPost:()=>void
-    updateNewPostText:(newText:string)=>void
+    dispatch: (action: ActionType) => void
 }
 function App(props:AppType) {
 
@@ -25,10 +24,10 @@ function App(props:AppType) {
                 <Navbar/>
                 <div className="app-wrapper-content">
                     <Route /*exact*/ path="/dialogs" render={()=>
-                        <Dialogs state ={props.state.dialogPage }/>} />
+                        <Dialogs state ={props.state.dialogPage} dispatch={store.dispatch.bind(store)}/>} />
                     <Route path="/profile" render={()=>
                         // <Profile profilePage={props.state.profilePage} addPost={props.addPost.bind(props.state)} updateNewPostText={props.updateNewPostText.bind(props.state)}/>} />
-                        <Profile profilePage={props.state.profilePage} addPost={props.addPost} updateNewPostText={props.updateNewPostText}/>} />
+                        <Profile profilePage={props.state.profilePage} dispatch={store.dispatch.bind(store)}/>} />
                     <Route path="/news" render={News} />
                     <Route path="/music" render={Music} />
                     <Route path="/settings/settings" render={Settings} />
