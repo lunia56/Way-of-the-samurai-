@@ -3,11 +3,10 @@ import imageChiken from '../img/chiken.jpg'
 import imageMonkey from '../img/monkey.jpg'
 import imageYasher from '../img/yasher.jpg'
 import {v1} from 'uuid';
+import {AddPostActionType, profileReducer, UpdatePostTextActionType} from './Profile-reducer';
+import {AddMessageActionType, dialogReducer, UpdateMessageTextActionType} from './dialog-reducer';
+import {sidebarReducer} from './sidebar-reducer';
 
-const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const ADD_MESSAGE = 'ADD-MESSAGE';
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
 
 export type StateType = {
     profilePage: ProfilePageType
@@ -43,29 +42,12 @@ export type PostType = {
 export type StoreType = {
     _state: StateType
     _callSubscriber: () => void
-    _updateNewPostText: (newText: string) => void
-    _addPost: () => void
-    _addMessage: () => void
-    _updateNewMessageText: (newText: string) => void
     dispatch: (action: ActionType) => void
     subscribe: (observer: () => void) => void
     getState: () => StateType
 }
 
-type AddPostActionType = {
-    type: 'ADD-POST'
-}
-type UpdatePostTextActionType = {
-    type: 'UPDATE-NEW-POST-TEXT'
-    newPostText: string
-}
-type AddMessageActionType = {
-    type: 'ADD-MESSAGE'
-}
-type UpdateMessageTextActionType = {
-    type: 'UPDATE-NEW-MESSAGE-TEXT'
-    newMessageText: string
-}
+
 export type ActionType =
     AddPostActionType
     | UpdatePostTextActionType
@@ -116,72 +98,17 @@ export let store: StoreType = {
     subscribe(observer) {
         this._callSubscriber = observer;
     },
-    _addPost() {
-        const newPost: PostType = {
-            id: v1(),
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
-        };
-        this._state.profilePage.posts.unshift(newPost)
-        this._updateNewPostText('')
-        this._callSubscriber()
-    },
-    _updateNewPostText(newText: string) {
-        this._state.profilePage.newPostText = newText
-        this._callSubscriber()
-    },
-    _addMessage() {
-        const newMessage: MessageDataType = {
-            id: v1(),
-            message: this._state.dialogPage.newMessageText,
 
-        };
-        this._state.dialogPage.messageData.unshift(newMessage)
-        this._updateNewMessageText('')
-        this._callSubscriber()
-    },
-    _updateNewMessageText(newText: string) {
-        this._state.dialogPage.newMessageText = newText
-        this._callSubscriber()
-    },
+
     dispatch(action) {
-        switch (action.type) {
-            case ADD_POST:
-                this._addPost()
-                break
-            case UPDATE_NEW_POST_TEXT:
-                this._updateNewPostText(action.newPostText)
-                break
-            case ADD_MESSAGE: this._addMessage()
-                break
-            case UPDATE_NEW_MESSAGE_TEXT: this._updateNewMessageText(action.newMessageText)
-                break
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogPage = dialogReducer(this._state.dialogPage, action)
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action)
+        this._callSubscriber()
     }
 }
 
-export const AddPostActionCreator = (): AddPostActionType => {
-    return {
-        type: ADD_POST
-    }
-}
-export const ChangePostTextActionCreator = (newPostText: string): UpdatePostTextActionType => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        newPostText: newPostText
-    }
-}
-export const AddMessageActionCreator = ():AddMessageActionType => {
-    return {
-        type: ADD_MESSAGE
-    }
-}
-export const ChangeMessageTextActionCreator = (newMessageText: string):UpdateMessageTextActionType => {
-    return {
-        type: UPDATE_NEW_MESSAGE_TEXT,
-        newMessageText: newMessageText
-    }
-}
+
 
 
 

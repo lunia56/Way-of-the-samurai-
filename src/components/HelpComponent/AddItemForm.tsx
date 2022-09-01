@@ -2,6 +2,8 @@ import React, {ChangeEvent, useState} from 'react';
 
 export type AddItemFormPropsType = {
     AddItem: (title: string) => void
+    title:string
+    placeholder?:string
 }
 
 export function AddItemForm(props: AddItemFormPropsType) {
@@ -24,17 +26,17 @@ export function AddItemForm(props: AddItemFormPropsType) {
         setTitle(e.currentTarget.value)
     }
     const onKeyDownAddItem = (e: { key: string }) => e.key === 'Enter' && onClickAddItem()
-    const inputErrorClass = error ? 'error' : '';
     const errorMessage = <div style={{color: 'hotpink'}}>Title is required!</div>
     return (
-        <div>
+        <div >
             <input
                 value={title}
                 onChange={onChangeSetTitle}
                 onKeyDown={onKeyDownAddItem}
-                className={inputErrorClass}
+                placeholder={props.placeholder}
             />
-            <button onClick={onClickAddItem}>+</button>
+            <button onClick={onClickAddItem}
+                   >{props.title}</button>
             {error && errorMessage}
         </div>)
 }

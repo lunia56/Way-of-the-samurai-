@@ -1,12 +1,8 @@
 import React from 'react';
-import classes from './Profile.module.css'
-import Posts from './Posts/Posts'
 import ProfileInfo from './ProfileInfo/ProfileInfo';
-import {ActionType, ProfilePageType, store} from '../../redux/state';
-// import "../img/picture"
+ import PostsContainer from './Posts/Post/PostsContainer';
 type ProfilePropsType = {
-    profilePage: ProfilePageType
-    dispatch: (action: ActionType) => void
+
 }
 
 function Profile(props: ProfilePropsType) {
@@ -14,10 +10,7 @@ function Profile(props: ProfilePropsType) {
 
         <div>
             <ProfileInfo/>
-            <Posts posts={props.profilePage.posts}
-                   newPostText={props.profilePage.newPostText}
-                   dispatch={store.dispatch.bind(store)}
-            />
+            <PostsContainer/>
         </div>);
 }
 

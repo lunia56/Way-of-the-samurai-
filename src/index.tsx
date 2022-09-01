@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {StateType, store} from './redux/state'
+import {StateType, store} from './redux/store'
 import {BrowserRouter} from 'react-router-dom';
+import  {Provider} from './StoreContext';
 
 // ReactDOM.render(
 //     <BrowserRouter>
@@ -12,10 +13,12 @@ import {BrowserRouter} from 'react-router-dom';
 //   document.getElementById('root')
 // );
 
-export let rerenderEntireTree = ()=>{
+export let rerenderEntireTree = () => {
         ReactDOM.render(
             <BrowserRouter>
-                <App state={store.getState()} dispatch={store.dispatch.bind(store)}/>
+                <Provider store={store}>
+                    <App/>
+                </Provider>
             </BrowserRouter>,
             document.getElementById('root')
         )
