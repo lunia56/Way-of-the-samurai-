@@ -3,9 +3,15 @@ import imageChiken from '../img/chiken.jpg'
 import imageMonkey from '../img/monkey.jpg'
 import imageYasher from '../img/yasher.jpg'
 import {v1} from 'uuid';
-import {AddPostActionType, profileReducer, UpdatePostTextActionType} from './Profile-reducer';
-import {AddMessageActionType, dialogReducer, UpdateMessageTextActionType} from './dialog-reducer';
-import {sidebarReducer} from './sidebar-reducer';
+import {AddPostActionType, PostType, profileReducer, UpdatePostTextActionType} from './Profile-reducer';
+import {
+    AddMessageActionType,
+    dialogReducer,
+    DialogsDataType,
+    MessageDataType,
+    UpdateMessageTextActionType
+} from './dialog-reducer';
+import {sidebarReducer, SidebarType} from './sidebar-reducer';
 
 
 export type StateType = {
@@ -13,7 +19,7 @@ export type StateType = {
     dialogPage: DialogPageType
     sidebar: SidebarType
 }
-export type SidebarType = {}
+
 export type ProfilePageType = {
     posts: PostType[]
     newPostText: string
@@ -23,20 +29,7 @@ export type DialogPageType = {
     messageData: MessageDataType[]
     newMessageText: string
 }
-export type MessageDataType = {
-    id: string
-    message: string
 
-}
-export type DialogsDataType = {
-    id: string
-    name: string
-}
-export type PostType = {
-    id: string
-    message: string
-    likesCount: number
-}
 
 
 export type StoreType = {

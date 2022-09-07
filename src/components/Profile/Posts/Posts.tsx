@@ -1,16 +1,9 @@
 import React, {ChangeEvent} from 'react';
 import Post from './Post/Post'
 import s from './posts.module.css'
-import {ActionType, PostType} from '../../../redux/store';
-import {AddPostActionCreator, ChangePostTextActionCreator} from '../../../redux/Profile-reducer';
+import {PostsPropsType} from './Post/PostsContainer';
 
 
-type PostsPropsType = {
-    posts: PostType[]
-    newPostText: string
-    updatePostText: (text: string) => void
-    AddPost:()=>void
-}
 
 function Posts(props: PostsPropsType) {
 
