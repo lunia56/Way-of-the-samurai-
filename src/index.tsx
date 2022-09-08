@@ -14,7 +14,7 @@ import { Provider } from 'react-redux';
 //   document.getElementById('root')
 // );
 
-export let rerenderEntireTree = () => {
+// export let rerenderEntireTree = () => {
         ReactDOM.render(
             <BrowserRouter>
                 <Provider store={store}>
@@ -23,7 +23,7 @@ export let rerenderEntireTree = () => {
             </BrowserRouter>,
             document.getElementById('root')
         )
-    }
+    // }
 ;
-rerenderEntireTree();
-store.subscribe(() => rerenderEntireTree());
+// rerenderEntireTree();
+// store.subscribe(() => rerenderEntireTree());

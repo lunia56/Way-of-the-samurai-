@@ -13,9 +13,11 @@ type DialogsPropsType = {
 function Dialogs(props: DialogsPropsType) {
 
 
-    const addMessage = (newText: string) => {
+    const onSendMessageClick = (newText:string) => {
         props.addMessage(newText)
     }
+
+
 
     const dialogsElements = props.dialogsPage.dialogsData.map(dialog => {
         return <DialogItem key={dialog.id} name={dialog.name} id={dialog.id}/>
@@ -31,7 +33,7 @@ function Dialogs(props: DialogsPropsType) {
                 </div>
                 <div className={s.messages}>
                     <div>{messagesElements}</div>
-                    <div><AddItemForm AddItem={addMessage} title={'Send'} placeholder={'Напишите сообщение...'}/></div>
+                    <div><AddItemForm AddItem={onSendMessageClick} title={'Send'} placeholder={'Напишите сообщение...'}/></div>
                 </div>
             </div>
 

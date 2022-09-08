@@ -24,6 +24,7 @@ export function AddItemForm(props: AddItemFormPropsType) {
     const onChangeSetTitle = (e: ChangeEvent<HTMLInputElement>) => {
         error && setError(false)
         setTitle(e.currentTarget.value)
+
     }
     const onKeyDownAddItem = (e: { key: string }) => e.key === 'Enter' && onClickAddItem()
     const errorMessage = <div style={{color: 'hotpink'}}>Title is required!</div>

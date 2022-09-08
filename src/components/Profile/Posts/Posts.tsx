@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import Post from './Post/Post'
 import s from './posts.module.css'
-import {PostsPropsType} from './Post/PostsContainer';
+import {PostsPropsType} from './PostsContainer';
 
 
 

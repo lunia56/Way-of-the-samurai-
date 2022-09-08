@@ -1,13 +1,9 @@
 import React from 'react';
-import {StateType, StoreType} from '../../redux/store';
-import {AddItemForm} from '../HelpComponent/AddItemForm';
 import {
     AddMessageActionCreator,
-    ChangeMessageTextActionCreator,
     InitialStateDialogsType
 } from '../../redux/dialog-reducer';
 import Dialogs from './Dialogs';
-import StoreContext, {Provider} from '../../StoreContext';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import { Dispatch } from 'redux';
@@ -29,8 +25,8 @@ let mapStateToProps = (state: AppStateType):mapStatePropsType => {
 let mapDispatchToProps = (dispatch:Dispatch):mapDispatchPropsType => {
     return {
         addMessage: (newText: string)=>{
-            dispatch(ChangeMessageTextActionCreator(newText))
-            dispatch(AddMessageActionCreator())
+            // dispatch(ChangeMessageTextActionCreator(newText))
+            dispatch(AddMessageActionCreator(newText))
         }
     }
 }

@@ -1,9 +1,8 @@
 import {v1} from 'uuid';
 import {ActionType} from './store';
-import {typeOptions} from '@testing-library/user-event/dist/type/typeImplementation';
 
 const ADD_MESSAGE = 'ADD-MESSAGE';
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
+// const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
 
 
 export type MessageDataType = {
@@ -17,13 +16,14 @@ export type DialogsDataType = {
 }
 
 export type AddMessageActionType = {
-    type: 'ADD-MESSAGE'
+    type: 'ADD-MESSAGE',
+    newText:string
 }
 
-export type UpdateMessageTextActionType = {
-    type: 'UPDATE-NEW-MESSAGE-TEXT'
-    newMessageText: string
-}
+// export type UpdateMessageTextActionType = {
+//     type: 'UPDATE-NEW-MESSAGE-TEXT'
+//     newMessageText: string
+// }
 // export type InitialStateDialogsType = {
 //     dialogsData: Array<DialogsDataType>
 //     messageData: Array<MessageDataType>
@@ -49,20 +49,17 @@ let initialState = {
     ] as Array<MessageDataType>,
     newMessageText: ''
 }
-export const dialogReducer = (state: InitialStateDialogsType = initialState, action: ActionType):InitialStateDialogsType => {
+export const dialogReducer = (state: InitialStateDialogsType = initialState, action: ActionType): InitialStateDialogsType => {
     switch (action.type) {
 
         case ADD_MESSAGE:
             const newMessage: MessageDataType = {
                 id: v1(),
-                message: state.newMessageText,
+                message: action.newText,
             }
-            state.messageData.push(newMessage)
-            state.newMessageText = ''
-            return state
-        case UPDATE_NEW_MESSAGE_TEXT:
-            state.newMessageText = action.newMessageText
-            return state
+            return {...state, messageData: [...state.messageData, newMessage], newMessageText: ''}
+        // case UPDATE_NEW_MESSAGE_TEXT:
+        //     return {...state, newMessageText: action.newMessageText}
         default:
             return state
 
@@ -70,14 +67,15 @@ export const dialogReducer = (state: InitialStateDialogsType = initialState, act
 
 }
 
-export const AddMessageActionCreator = (): AddMessageActionType => {
+export const AddMessageActionCreator = (newText:string): AddMessageActionType => {
     return {
-        type: ADD_MESSAGE
-    }
+        type: ADD_MESSAGE,
+        newText
+    } as const
 }
-export const ChangeMessageTextActionCreator = (newMessageText: string): UpdateMessageTextActionType => {
-    return {
-        type: UPDATE_NEW_MESSAGE_TEXT,
-        newMessageText: newMessageText
-    }
-}
+// export const ChangeMessageTextActionCreator = (newMessageText: string): UpdateMessageTextActionType => {
+//     return {
+//         type: UPDATE_NEW_MESSAGE_TEXT,
+//         newMessageText: newMessageText
+//     }
+// }
