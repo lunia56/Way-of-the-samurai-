@@ -2,13 +2,10 @@ import React from 'react';
 import s from './dialogs.module.css'
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
-import { DialogPageType} from '../../redux/store';
 import {AddItemForm} from '../HelpComponent/AddItemForm';
+import {DialogsPropsType} from './DialogsContainer';
 
-type DialogsPropsType = {
-    addMessage: (newText: string) => void
-    dialogsPage:DialogPageType
-}
+
 
 function Dialogs(props: DialogsPropsType) {
 

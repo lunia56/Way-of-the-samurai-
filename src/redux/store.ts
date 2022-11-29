@@ -1,61 +1,51 @@
-import imageDog from '../img/dog.jpg'
-import imageChiken from '../img/chiken.jpg'
-import imageMonkey from '../img/monkey.jpg'
-import imageYasher from '../img/yasher.jpg'
-import {v1} from 'uuid';
-import {AddPostActionType, PostType, profileReducer, UpdatePostTextActionType} from './profile-reducer';
+
+import {AddPostActionType, UpdatePostTextActionType} from './profile-reducer';
 
 import {
     AddMessageActionType,
-    dialogReducer,
-    DialogsDataType,
-    MessageDataType
+
 } from './dialog-reducer';
-import {sidebarReducer, SidebarType} from './sidebar-reducer';
 import {
-    FollowUserActionType,
-    SelectPageActionType, setTotalCountActionType,
-    SetUsersActionType,
-    UnFollowUserActionType,
-    usersReducer
+    FollowUserAT, SelectPageAT, setTotalCountAT, SetUsersAT, ToggleFetchingAT, UnFollowUserAT,
 } from './users-reducer';
-
-
-export type StateType = {
-    profilePage: ProfilePageType
-    dialogPage: DialogPageType
-    sidebar: SidebarType
-}
-
-export type ProfilePageType = {
-    posts: PostType[]
-    newPostText: string
-}
-export type DialogPageType = {
-    dialogsData: DialogsDataType[]
-    messageData: MessageDataType[]
-    newMessageText: string
-}
-
-
-export type StoreType = {
-    _state: StateType
-    _callSubscriber: () => void
-    dispatch: (action: ActionType) => void
-    subscribe: (observer: () => void) => void
-    getState: () => StateType
-}
 
 
 export type ActionType =
     AddPostActionType
     | UpdatePostTextActionType
     | AddMessageActionType
-    | FollowUserActionType
-    | UnFollowUserActionType
-    | SetUsersActionType
-    | SelectPageActionType
-    | setTotalCountActionType
+    | FollowUserAT
+    | UnFollowUserAT
+    | SetUsersAT
+    | SelectPageAT
+    | setTotalCountAT
+    | ToggleFetchingAT
+
+// export type StateType = {
+//     profilePage: ProfilePageType
+//     dialogPage: DialogPageType
+//     sidebar: SidebarType
+// }
+
+// export type ProfilePageType = {
+//     posts: PostType[]
+//     newPostText: string
+// }
+// export type DialogPageType = {
+//     dialogsData: DialogsDataType[]
+//     messageData: MessageDataType[]
+//     newMessageText: string
+// }
+//
+//
+// export type StoreType = {
+//     _state: StateType
+//     _callSubscriber: () => void
+//     dispatch: (action: ActionType) => void
+//     subscribe: (observer: () => void) => void
+//     getState: () => StateType
+// }
+
 
 // export let store: StoreType = {
 //     _state: {
