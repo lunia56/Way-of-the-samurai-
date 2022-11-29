@@ -4,6 +4,7 @@ import imageMonkey from '../img/monkey.jpg'
 import imageYasher from '../img/yasher.jpg'
 import {v1} from 'uuid';
 import {AddPostActionType, PostType, profileReducer, UpdatePostTextActionType} from './profile-reducer';
+
 import {
     AddMessageActionType,
     dialogReducer,
@@ -11,7 +12,13 @@ import {
     MessageDataType
 } from './dialog-reducer';
 import {sidebarReducer, SidebarType} from './sidebar-reducer';
-import {FollowUserActionType, SetUsersActionType, UnFollowUserActionType, usersReducer} from './users-reducer';
+import {
+    FollowUserActionType,
+    SelectPageActionType, setTotalCountActionType,
+    SetUsersActionType,
+    UnFollowUserActionType,
+    usersReducer
+} from './users-reducer';
 
 
 export type StateType = {
@@ -31,7 +38,6 @@ export type DialogPageType = {
 }
 
 
-
 export type StoreType = {
     _state: StateType
     _callSubscriber: () => void
@@ -45,9 +51,11 @@ export type ActionType =
     AddPostActionType
     | UpdatePostTextActionType
     | AddMessageActionType
-|FollowUserActionType
-|UnFollowUserActionType
-|SetUsersActionType
+    | FollowUserActionType
+    | UnFollowUserActionType
+    | SetUsersActionType
+    | SelectPageActionType
+    | setTotalCountActionType
 
 // export let store: StoreType = {
 //     _state: {
