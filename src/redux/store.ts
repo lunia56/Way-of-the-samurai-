@@ -1,5 +1,4 @@
-
-import {AddPostActionType, UpdatePostTextActionType} from './profile-reducer';
+import {AddPostActionType, SetUserProfileAT, UpdatePostTextActionType} from './profile-reducer';
 
 import {
     AddMessageActionType,
@@ -12,6 +11,7 @@ import {
 
 export type ActionType =
     AddPostActionType
+    | SetUserProfileAT
     | UpdatePostTextActionType
     | AddMessageActionType
     | FollowUserAT
