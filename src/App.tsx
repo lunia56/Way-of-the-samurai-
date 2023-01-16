@@ -22,7 +22,8 @@ function App() {
             <div className="app-wrapper-content">
                 <Route /*exact*/ path="/dialogs" render={() =>
                     <DialogsContainer/>}/>
-                <Route path="/profile" render={() =>
+                {/* Ниже описано как передавать опциональный параметр в путь для того что бы затем его использовать для WithROUT*/}
+                <Route path="/profile/:userId?" render={() =>
                     <ProfileContainer/>}/>
                 <Route path="/users" render={() =>
                     <UsersContainer />}/>
