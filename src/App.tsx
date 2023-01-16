@@ -10,6 +10,7 @@ import Friends from './components/Friends/Friends';
 import {DialogsContainer} from './components/Dialogs/DialogsContainer';
 import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from './components/Profile/ProfileContainer';
+import HeaderContainer from './components/Header/HeaderContainer';
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
     return (
 
         <div className="app-wrapper">
-            <Header/>
+            <HeaderContainer/>
             <Navbar/>
             <div className="app-wrapper-content">
                 <Route /*exact*/ path="/dialogs" render={() =>
@@ -26,7 +27,7 @@ function App() {
                 <Route path="/profile/:userId?" render={() =>
                     <ProfileContainer/>}/>
                 <Route path="/users" render={() =>
-                    <UsersContainer />}/>
+                    <UsersContainer/>}/>
                 <Route path="/news" render={News}/>
                 <Route path="/music" render={Music}/>
                 <Route path="/settings/settings" render={Settings}/>

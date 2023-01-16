@@ -2,8 +2,14 @@
     grid-area: h;
     background-color: #fbff9b;
     height: 140px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .header img {
     width: 150px;
+}
+.navlink a{
+text-decoration: none;
+    text-decoration: #61dafb;
 }
