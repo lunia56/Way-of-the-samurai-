@@ -5,7 +5,13 @@ import {
 
 } from './dialog-reducer';
 import {
-    FollowUserAT, SelectPageAT, setTotalCountAT, SetUsersAT, ToggleFetchingAT, UnFollowUserAT,
+    FollowUserAT,
+    SelectPageAT,
+    setTotalCountAT,
+    SetUsersAT,
+    ToggleFetchingAT,
+    toggleFollowingInProgress,
+    UnFollowUserAT,
 } from './users-reducer';
 
 
@@ -20,6 +26,7 @@ export type ActionType =
     | SelectPageAT
     | setTotalCountAT
     | ToggleFetchingAT
+    | ReturnType<typeof toggleFollowingInProgress>
 
 // export type StateType = {
 //     profilePage: ProfilePageType
