@@ -3,6 +3,7 @@ import styles from "./User.module.css";
 import React from "react";
 import styled from "styled-components";
 import {NavLink} from 'react-router-dom';
+import axios from 'axios';
 
 
 //использование стилей через styled component
@@ -26,8 +27,23 @@ function User({users, totalUserCount, pageSize, currentPage, onPageChanged, foll
     for (let i = 1; i <= pageCount; i++) {
         pages.push(i)
     }
-
-    return (
+    const followHandler = (id:number)=>{
+      axios.post(`https://social-network.samuraijs.com/api/1.0//follow/${id}`,{},{withCredentials:true})
+          .then(res=>{
+              if(res.data.resultCode===0){
+                  follow(id)
+              }
+          })
+    }
+    const unFollowHandler = (id:number)=>{
+        axios.delete(`https://social-network.samuraijs.com/api/1.0//follow/${id}`,{withCredentials:true})
+            .then(res=>{
+                if(res.data.resultCode===0){
+                    unFollow(id)
+                }
+            })
+    }
+        return (
         <div>
             <div>
                 {pages.map(el => currentPage === el ? <Span>{el}</Span> :
@@ -43,11 +59,7 @@ function User({users, totalUserCount, pageSize, currentPage, onPageChanged, foll
                             className={styles.userPhoto}/>
                         </NavLink>
                     </div>
-                    <div>{el.followed ? <button onClick={() => {
-                        unFollow(el.id)
-                    }}>Unfollow</button> : <button onClick={() => {
-                        follow(el.id)
-                    }}> Follow </button>}
+                    <div>{el.followed ? <button onClick={()=>unFollowHandler(el.id)}>Unfollow</button> : <button onClick={()=>followHandler(el.id)}> Follow </button>}
                     </div></span>
                 <span>
                             <span>

@@ -22,7 +22,9 @@ type ResponceDataType = {
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType> {
     componentDidMount() {
-        axios.get<ResponceType>(`https://social-network.samuraijs.com/api/1.0/auth/me`, {withCredentials:true})
+        axios.get<ResponceType>(`https://social-network.samuraijs.com/api/1.0/auth/me`, {withCredentials:true,headers: {
+            'API-KEY': '2d4dfcef-1677-495e-b268-58032de893b0'
+        }})
             .then(res => {
 
                 if (res.data.resultCode === 0) {

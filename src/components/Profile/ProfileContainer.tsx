@@ -13,15 +13,17 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
     componentDidMount() {
         let userId = this.props.match.params.userId
+        debugger
+        console.log(this.props)
         if (!userId) {
             userId = '2'
         }
         axios
-            .get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
+            .get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`,{withCredentials:true,headers: {
+                    'API-KEY': '2d4dfcef-1677-495e-b268-58032de893b0'
+                }})
 
             .then(res => {
-                console.log(res.data)
-
                 this.props.setUsersProfile(res.data)
             })
     }
