@@ -1,9 +1,9 @@
-import {UserType} from "../../redux/users-reducer";
 import styles from "./User.module.css";
 import React from "react";
 import styled from "styled-components";
 import {NavLink} from 'react-router-dom';
 import axios from 'axios';
+import {followUnFollowAPI, API, UserType} from '../../API/API';
 
 
 //использование стилей через styled component
@@ -28,7 +28,7 @@ function User({users, totalUserCount, pageSize, currentPage, onPageChanged, foll
         pages.push(i)
     }
     const followHandler = (id:number)=>{
-      axios.post(`https://social-network.samuraijs.com/api/1.0//follow/${id}`,{},{withCredentials:true})
+        followUnFollowAPI.follow(id)
           .then(res=>{
               if(res.data.resultCode===0){
                   follow(id)
@@ -36,7 +36,7 @@ function User({users, totalUserCount, pageSize, currentPage, onPageChanged, foll
           })
     }
     const unFollowHandler = (id:number)=>{
-        axios.delete(`https://social-network.samuraijs.com/api/1.0//follow/${id}`,{withCredentials:true})
+        followUnFollowAPI.unFollow(id)
             .then(res=>{
                 if(res.data.resultCode===0){
                     unFollow(id)
@@ -53,11 +53,13 @@ function User({users, totalUserCount, pageSize, currentPage, onPageChanged, foll
             {users.map((el: UserType) => <div key={el.id}>
                 <span>
                     <div>
+
                         <NavLink to={"/profile/" + el.id}>
                             <img
                             src={el.photos.large ? el.photos.large : "https://blog.cpanel.com/wp-content/uploads/2019/08/user-01.png"}
                             className={styles.userPhoto}/>
                         </NavLink>
+
                     </div>
                     <div>{el.followed ? <button onClick={()=>unFollowHandler(el.id)}>Unfollow</button> : <button onClick={()=>followHandler(el.id)}> Follow </button>}
                     </div></span>

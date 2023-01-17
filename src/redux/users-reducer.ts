@@ -2,6 +2,7 @@ import {v1} from 'uuid';
 import {AddPostActionType, UpdatePostTextActionType} from './profile-reducer';
 import {AddMessageActionType} from './dialog-reducer';
 import {ActionType} from './store';
+import {UserType} from '../API/API';
 
 
 export type FollowUserAT = ReturnType<typeof Follow>
@@ -20,18 +21,6 @@ export type InitialStateUsersType = {
     currentPage: number
     isFetching: boolean
 }
-
-
-export type UserType = {
-    id: number
-    photos: { small: string | null, large: string | null }
-    followed: boolean
-    name: string | null
-    uniqueUrlName: string | null
-    status: string | null
-    location: locationUserType
-}
-type locationUserType = { country: string, city: string }
 
 
 let initialState: InitialStateUsersType = {
