@@ -1,8 +1,4 @@
-import {v1} from 'uuid';
-import {AddPostActionType, UpdatePostTextActionType} from './profile-reducer';
-import {AddMessageActionType} from './dialog-reducer';
 import {followUnFollowAPI, UserAPI, UserType} from '../API/API';
-import {Dispatch} from 'redux';
 import {ActionType, DispatchType} from './redux-store';
 
 

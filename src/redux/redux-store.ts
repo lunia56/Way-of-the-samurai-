@@ -11,22 +11,21 @@ import {
     UnFollowUserAT,
     usersReducer
 } from './users-reducer';
-import {authReducer} from './auth-reducer';
+import {AuthActionType, authReducer} from './auth-reducer';
 import thunk, {ThunkDispatch} from 'redux-thunk';
 
 const rootReduсer = combineReducers({
     profilePage: profileReducer,
     dialogPage: dialogReducer,
     sidebar: sidebarReducer,
-    usersPage:usersReducer,
+    usersPage: usersReducer,
     auth: authReducer
 })
 
 export type AppStateType = ReturnType<typeof rootReduсer>
 export type DispatchType = ThunkDispatch<AppStateType, unknown, ActionType>
-let store = createStore(rootReduсer,applyMiddleware(thunk));
+let store = createStore(rootReduсer, applyMiddleware(thunk));
 export default store
-
 
 
 export type ActionType =
@@ -41,5 +40,6 @@ export type ActionType =
     | setTotalCountAT
     | ToggleFetchingAT
     | ReturnType<typeof toggleFollowingInProgress>
+    | AuthActionType
 // @ts-ignore
 window.store = store

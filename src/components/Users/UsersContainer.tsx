@@ -5,14 +5,11 @@ import {
     follow, getUsers, onPageChanget,
     SelectPage,
     setTotalCount,
-    SetUsers, toggleFollowingInProgress,
-    ToggleIsFetching, unFollow,
+    SetUsers, unFollow,
 } from '../../redux/users-reducer';
-import axios from "axios";
 import UserFunction from "./Users";
 import Preloader from '../common/Preloader/Preloader';
-import {UserAPI, UserType} from '../../API/API';
-import {Dispatch} from 'redux';
+import {UserType} from '../../API/API';
 
 
 type MapStatePropsType = {
@@ -29,20 +26,20 @@ type MapDispatchPropsType = {
     setUsers: (users: Array<UserType>) => void
     selectPage: (currentPage: number) => void
     setTotalUsers: (totalCount: number) => void
-    getUser: (currentPage: number,pageSize:number) => void
-    onPageChanget: (pageNumber: number,currentPage:number,pageSize:number) => void
+    getUser: (currentPage: number, pageSize: number) => void
+    onPageChanget: (pageNumber: number, currentPage: number, pageSize: number) => void
 }
 
 class UsersAPI extends React.Component<UsersPropsType> {
 
     componentDidMount() {
         if (this.props.users.length == 0) {
-            this.props.getUser(this.props.currentPage,this.props.pageSize)
+            this.props.getUser(this.props.currentPage, this.props.pageSize)
         }
     }
 
     onPageChanged = (pageNumber: number) => {
-        this.props.onPageChanget(pageNumber,this.props.currentPage,this.props.pageSize)
+        this.props.onPageChanget(pageNumber, this.props.currentPage, this.props.pageSize)
     }
 
     render() {
@@ -52,7 +49,7 @@ class UsersAPI extends React.Component<UsersPropsType> {
                               pageSize={this.props.pageSize}
                               currentPage={this.props.currentPage} onPageChanged={this.onPageChanged}
                               follow={this.props.follow} unFollow={this.props.unFollow}
-                               followingInProgress={this.props.followingInProgress}/>}
+                              followingInProgress={this.props.followingInProgress}/>}
 
         </>
     }
@@ -86,11 +83,11 @@ const mapDispatchToProps = (dispatch: DispatchType): MapDispatchPropsType => {
         unFollow: (userId: number) => {
             dispatch(unFollow(userId))
         },
-        getUser: (currentPage:number,pageSize:number) => {
-            dispatch(getUsers(currentPage,pageSize))
+        getUser: (currentPage: number, pageSize: number) => {
+            dispatch(getUsers(currentPage, pageSize))
         },
-        onPageChanget:(pageNumber: number,currentPage:number,pageSize:number)=>{
-            dispatch(onPageChanget(pageNumber,currentPage,pageSize))
+        onPageChanget: (pageNumber: number, currentPage: number, pageSize: number) => {
+            dispatch(onPageChanget(pageNumber, currentPage, pageSize))
         }
     }
 }

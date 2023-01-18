@@ -1,13 +1,9 @@
 import React from 'react';
 import Profile from './Profile';
-import axios from 'axios';
 import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
-import {profileType, SetUserProfileAC} from '../../redux/profile-reducer';
-import {AppStateType} from '../../redux/redux-store';
-import {logDOM} from '@testing-library/react';
+import {getUserProfile, profileType} from '../../redux/profile-reducer';
+import {AppStateType, DispatchType} from '../../redux/redux-store';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {ProfileAPI} from '../../API/API';
 
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
@@ -17,10 +13,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         if (!userId) {
             userId = '2'
         }
-        ProfileAPI.getProfilePage(userId)
-            .then(res => {
-                this.props.setUsersProfile(res.data)
-            })
+        this.props.getUserProfile(userId)
     }
 
     render() {
@@ -41,13 +34,13 @@ type mapStateToPropsType = {
     profile: null | profileType
 }
 type mapDispatchToPropsType = {
-    setUsersProfile: (profile: profileType) => void
+    getUserProfile: (id:string) => void
 }
 let mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
     profile: state.profilePage.profile
 })
-let mapDispatchToProps = (dispatch: Dispatch): mapDispatchToPropsType => ({
-    setUsersProfile: (profile: profileType) => dispatch(SetUserProfileAC(profile))
+let mapDispatchToProps = (dispatch: DispatchType): mapDispatchToPropsType => ({
+    getUserProfile: (id:string) => dispatch(getUserProfile(id))
 })
 //так выглядит типизация withRouter
 export type OwnPropsType = mapStateToPropsType & mapDispatchToPropsType

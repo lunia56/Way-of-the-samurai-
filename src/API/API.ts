@@ -23,7 +23,7 @@ export const  followUnFollowAPI = {
     }
 }
 export const AuthIPI ={
-    getAuthUserData: () => {
+    me: () => {
         return instance.get<AuthResponceType<AuthResponceDataType>>(`/auth/me`)
     }
 }

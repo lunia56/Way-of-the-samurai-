@@ -1,6 +1,6 @@
 import {v1} from 'uuid';
-import {ActionType} from './redux-store';
-
+import {ActionType, DispatchType} from './redux-store';
+import {ProfileAPI} from '../API/API';
 
 
 const ADD_POST = 'ADD-POST'
@@ -12,24 +12,24 @@ export type PostType = {
     likesCount: number
 }
 
-export type profileType= {
-    aboutMe:string|null
-    contacts:contactsType
-    lookingForAJob:boolean
-    lookingForAJobDescription:string|null
-    fullName:string|null
-    userId:number
-    photos:{small:string|null,large:string|null}
+export type profileType = {
+    aboutMe: string | null
+    contacts: contactsType
+    lookingForAJob: boolean
+    lookingForAJobDescription: string | null
+    fullName: string | null
+    userId: number
+    photos: { small: string | null, large: string | null }
 }
 export type contactsType = {
-    facebook:string|null
-    website:string|null
-    vk:string|null
-    twitter:string|null
-    instagram:string|null
-    youtube:string|null
-    github:string|null
-    mainLink:string|null
+    facebook: string | null
+    website: string | null
+    vk: string | null
+    twitter: string | null
+    instagram: string | null
+    youtube: string | null
+    github: string | null
+    mainLink: string | null
 }
 export type AddPostActionType = {
     type: 'ADD-POST'
@@ -40,11 +40,11 @@ export type UpdatePostTextActionType = {
 }
 export type SetUserProfileAT = ReturnType<typeof SetUserProfileAC>
 export type InitialStateProfileType = {
-    posts:Array<PostType>
-    newPostText:string
-    profile:null|profileType
+    posts: Array<PostType>
+    newPostText: string
+    profile: null | profileType
 }
-let initialState:InitialStateProfileType =  {
+let initialState: InitialStateProfileType = {
     posts: [
         {id: v1(), message: 'Hi, How are you', likesCount: 15},
         {id: v1(), message: 'My First Post', likesCount: 4},
@@ -53,10 +53,10 @@ let initialState:InitialStateProfileType =  {
         {id: v1(), message: '!', likesCount: 15},
         {id: v1(), message: '?', likesCount: 15}
     ],
-        newPostText: '',
-    profile:null
+    newPostText: '',
+    profile: null
 }
-export const profileReducer = (state:InitialStateProfileType=initialState, action: ActionType):InitialStateProfileType => {
+export const profileReducer = (state: InitialStateProfileType = initialState, action: ActionType): InitialStateProfileType => {
     switch (action.type) {
         case ADD_POST:
             const newPost: PostType = {
@@ -64,13 +64,14 @@ export const profileReducer = (state:InitialStateProfileType=initialState, actio
                 message: state.newPostText,
                 likesCount: 0
             };
-        return {...state,posts:[newPost,...state.posts],newPostText:""};
+            return {...state, posts: [newPost, ...state.posts], newPostText: ""};
 
         case UPDATE_NEW_POST_TEXT:
-            return {...state,newPostText:action.newPostText}
+            return {...state, newPostText: action.newPostText}
         case 'SET_USER_PROFILE':
-            return {...state, profile:action.profile}
-        default: return state
+            return {...state, profile: action.profile}
+        default:
+            return state
 
     }
 }
@@ -86,4 +87,12 @@ export const ChangePostTextActionCreator = (newPostText: string): UpdatePostText
         newPostText: newPostText
     }
 }
-export const SetUserProfileAC = (profile:profileType)=>({type:'SET_USER_PROFILE',profile} as const)
+export const SetUserProfileAC = (profile: profileType) => ({type: 'SET_USER_PROFILE', profile} as const)
+
+
+export const getUserProfile = (userId: string) => (dispatch: DispatchType) => {
+    ProfileAPI.getProfilePage(userId)
+        .then(res => {
+            dispatch(SetUserProfileAC(res.data))
+        })
+}
