@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {NavLink} from 'react-router-dom';
 import axios from 'axios';
 import {followUnFollowAPI, UserType} from '../../API/API';
+import {follow} from '../../redux/users-reducer';
 
 
 //использование стилей через styled component
@@ -19,7 +20,6 @@ type UserPropsType = {
     follow: (userId: number) => void
     unFollow: (userId: number) => void
     followingInProgress: number[]
-    toggleFollowingInProgress: (isFetching: boolean, userId: number) => void
 }
 
 function User({
@@ -31,7 +31,6 @@ function User({
                   follow,
                   unFollow,
                   followingInProgress,
-                  toggleFollowingInProgress
               }: UserPropsType) {
 
     let pageCount = Math.ceil(totalUserCount / pageSize)
@@ -39,27 +38,7 @@ function User({
     for (let i = 1; i <= pageCount; i++) {
         pages.push(i)
     }
-    const followHandler = (id: number) => {
-        toggleFollowingInProgress(true, id)
-        followUnFollowAPI.follow(id)
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    follow(id)
-                    toggleFollowingInProgress(false, id)
-                }
-            })
 
-    }
-    const unFollowHandler = (id: number) => {
-        toggleFollowingInProgress(true, id)
-        followUnFollowAPI.unFollow(id)
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    unFollow(id)
-                    toggleFollowingInProgress(false, id)
-                }
-            })
-    }
     return (
         <div>
             <div>
@@ -81,10 +60,10 @@ function User({
                     <div>{el.followed
                         ? <button
                             disabled={followingInProgress.some(id => id === el.id)}
-                            onClick={() => unFollowHandler(el.id)}>Unfollow</button>
+                            onClick={() => unFollow(el.id)}>Unfollow</button>
                         : <button
                             disabled={followingInProgress.some(id => id === el.id)}
-                            onClick={() => followHandler(el.id)}> Follow </button>}
+                            onClick={() => follow(el.id)}> Follow </button>}
                             </div></span>
                 <span>
                             <span>

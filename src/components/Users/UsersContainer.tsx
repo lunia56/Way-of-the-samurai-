@@ -1,19 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
-import {AppStateType} from '../../redux/redux-store';
+import {AppStateType, DispatchType} from '../../redux/redux-store';
 import {
-    Follow,
+    follow, getUsers, onPageChanget,
     SelectPage,
     setTotalCount,
     SetUsers, toggleFollowingInProgress,
-    ToggleIsFetching,
-    UnFollow
+    ToggleIsFetching, unFollow,
 } from '../../redux/users-reducer';
 import axios from "axios";
 import UserFunction from "./Users";
 import Preloader from '../common/Preloader/Preloader';
 import {UserAPI, UserType} from '../../API/API';
+import {Dispatch} from 'redux';
 
 
 type MapStatePropsType = {
@@ -30,33 +29,20 @@ type MapDispatchPropsType = {
     setUsers: (users: Array<UserType>) => void
     selectPage: (currentPage: number) => void
     setTotalUsers: (totalCount: number) => void
-    toggleIsFetching: (isFetching: boolean) => void
-    toggleFollowingInProgress: (isFetching: boolean, userId: number) => void
+    getUser: (currentPage: number,pageSize:number) => void
+    onPageChanget: (pageNumber: number,currentPage:number,pageSize:number) => void
 }
 
 class UsersAPI extends React.Component<UsersPropsType> {
 
     componentDidMount() {
         if (this.props.users.length == 0) {
-            this.props.toggleIsFetching(true)
-            UserAPI.getUser(this.props.currentPage, this.props.pageSize)
-                .then(res => {
-                    this.props.toggleIsFetching(false)
-                    console.log(res.items)
-                    this.props.setUsers(res.items)
-                    this.props.setTotalUsers(res.totalCount)
-                })
+            this.props.getUser(this.props.currentPage,this.props.pageSize)
         }
     }
 
     onPageChanged = (pageNumber: number) => {
-        this.props.selectPage(pageNumber)
-        this.props.toggleIsFetching(true)
-        UserAPI.getUser(this.props.currentPage, this.props.pageSize)
-            .then(res => {
-                this.props.toggleIsFetching(false)
-                this.props.setUsers(res.items)
-            })
+        this.props.onPageChanget(pageNumber,this.props.currentPage,this.props.pageSize)
     }
 
     render() {
@@ -66,7 +52,7 @@ class UsersAPI extends React.Component<UsersPropsType> {
                               pageSize={this.props.pageSize}
                               currentPage={this.props.currentPage} onPageChanged={this.onPageChanged}
                               follow={this.props.follow} unFollow={this.props.unFollow}
-                              toggleFollowingInProgress={this.props.toggleFollowingInProgress} followingInProgress={this.props.followingInProgress}/>}
+                               followingInProgress={this.props.followingInProgress}/>}
 
         </>
     }
@@ -83,14 +69,8 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
         followingInProgress: state.usersPage.followingInProgress
     }
 }
-const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
+const mapDispatchToProps = (dispatch: DispatchType): MapDispatchPropsType => {
     return {
-        follow: (userId: number) => {
-            dispatch(Follow(userId))
-        },
-        unFollow: (userId: number) => {
-            dispatch(UnFollow(userId))
-        },
         setUsers: (users: Array<UserType>) => {
             dispatch(SetUsers(users))
         },
@@ -100,11 +80,17 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
         setTotalUsers: (totalCount: number) => {
             dispatch(setTotalCount(totalCount))
         },
-        toggleIsFetching: (isFetching: boolean) => {
-            dispatch(ToggleIsFetching(isFetching))
+        follow: (userId: number) => {
+            dispatch(follow(userId))
         },
-        toggleFollowingInProgress: (isFetching: boolean, userId: number) => {
-            dispatch(toggleFollowingInProgress(isFetching, userId))
+        unFollow: (userId: number) => {
+            dispatch(unFollow(userId))
+        },
+        getUser: (currentPage:number,pageSize:number) => {
+            dispatch(getUsers(currentPage,pageSize))
+        },
+        onPageChanget:(pageNumber: number,currentPage:number,pageSize:number)=>{
+            dispatch(onPageChanget(pageNumber,currentPage,pageSize))
         }
     }
 }

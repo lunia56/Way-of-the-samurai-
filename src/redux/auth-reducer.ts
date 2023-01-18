@@ -1,5 +1,4 @@
 import {v1} from 'uuid';
-import {ActionType} from './store';
 
 
 export type InitialStateAuthType = {

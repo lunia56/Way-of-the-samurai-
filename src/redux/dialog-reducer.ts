@@ -1,5 +1,5 @@
 import {v1} from 'uuid';
-import {ActionType} from './store';
+import {ActionType} from './redux-store';
 
 const ADD_MESSAGE = 'ADD-MESSAGE';
 // const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';

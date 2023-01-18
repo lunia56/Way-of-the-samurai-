@@ -1,5 +1,5 @@
 import {v1} from 'uuid';
-import {ActionType} from './store';
+import {ActionType} from './redux-store';
 
 
 

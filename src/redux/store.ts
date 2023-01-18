@@ -15,18 +15,7 @@ import {
 } from './users-reducer';
 
 
-export type ActionType =
-    AddPostActionType
-    | SetUserProfileAT
-    | UpdatePostTextActionType
-    | AddMessageActionType
-    | FollowUserAT
-    | UnFollowUserAT
-    | SetUsersAT
-    | SelectPageAT
-    | setTotalCountAT
-    | ToggleFetchingAT
-    | ReturnType<typeof toggleFollowingInProgress>
+
 
 // export type StateType = {
 //     profilePage: ProfilePageType
@@ -99,14 +88,14 @@ export type ActionType =
 //     },
 //
 //
-// //     dispatch(action) {
-// //         this._state.profilePage = profileReducer(this._state.profilePage, action)
-// //         this._state.dialogPage = dialogReducer(this._state.dialogPage, action)
-// //         this._state.sidebar = sidebarReducer(this._state.sidebar, action)
-// //         this._state.sidebar = usersReducer(this._state.sidebar, action)
-// //         this._callSubscriber()
-// //     }
-// // }
+//     dispatch(action) {
+//         this._state.profilePage = profileReducer(this._state.profilePage, action)
+//         this._state.dialogPage = dialogReducer(this._state.dialogPage, action)
+//         this._state.sidebar = sidebarReducer(this._state.sidebar, action)
+//         this._state.sidebar = usersReducer(this._state.sidebar, action)
+//         this._callSubscriber()
+//     }
+// }
 //
 //
 //
