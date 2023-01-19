@@ -6,7 +6,8 @@ import {
 import Dialogs from './Dialogs';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
-import { Dispatch } from 'redux';
+import {compose, Dispatch} from 'redux';
+import WithAuthRedirect from '../../HOC/withAuthRedirect';
 
 
 
@@ -30,5 +31,9 @@ let mapDispatchToProps = (dispatch:Dispatch):mapDispatchPropsType => {
         }
     }
 }
+
 export type DialogsPropsType = mapStatePropsType&mapDispatchPropsType
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+
+// функция compose позволяет создать цепочку вызовов функций, результат выполнений первой функции помещая е следующую в конвейере
+export default compose<React.ComponentType>(connect(mapStateToProps, mapDispatchToProps),WithAuthRedirect)(Dialogs)
+

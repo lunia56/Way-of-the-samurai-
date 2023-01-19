@@ -4,6 +4,9 @@ import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import {AddItemForm} from '../HelpComponent/AddItemForm';
 import {DialogsPropsType} from './DialogsContainer';
+import { Redirect} from 'react-router-dom';
+import WithAuthRedirect from '../../HOC/withAuthRedirect';
+
 
 
 
@@ -22,6 +25,8 @@ function Dialogs(props: DialogsPropsType) {
     const messagesElements = props.dialogsPage.messageData.map(m => {
         return <Message key={m.id} message={m.message}/>
     })
+
+
     return (
         <>
             <div className={s.dialogs}>

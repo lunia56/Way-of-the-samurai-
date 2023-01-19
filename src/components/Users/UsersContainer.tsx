@@ -10,6 +10,11 @@ import {
 import UserFunction from "./Users";
 import Preloader from '../common/Preloader/Preloader';
 import {UserType} from '../../API/API';
+import {Redirect} from 'react-router-dom';
+import withAuthRedirect from '../../HOC/withAuthRedirect';
+import {compose} from 'redux';
+import WithAuthRedirect from '../../HOC/withAuthRedirect';
+import Dialogs from '../Dialogs/Dialogs';
 
 
 type MapStatePropsType = {
@@ -94,5 +99,10 @@ const mapDispatchToProps = (dispatch: DispatchType): MapDispatchPropsType => {
 export type UsersPropsType = MapStatePropsType
     & MapDispatchPropsType
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersAPI);
+// HOC для оборачивания компоненты проверкой на авторизацию
+// let AuthRedirectComponent = withAuthRedirect(UsersAPI)
+// export default connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
+
+// функция compose позволяет создать цепочку вызовов функций, результат выполнений первой функции помещая е следующую в конвейере
+export default compose<React.ComponentType>(connect(mapStateToProps, mapDispatchToProps),WithAuthRedirect)(UsersAPI)
 
