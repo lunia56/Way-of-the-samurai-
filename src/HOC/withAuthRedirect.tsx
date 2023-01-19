@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {AppStateType} from '../redux/redux-store';
-import {InitialStateDialogsType} from '../redux/dialog-reducer';
 
 type mapStatePropsType = {
     isAuth: boolean
@@ -11,14 +10,16 @@ const mapStateToProps = (state: AppStateType): mapStatePropsType => ({
     isAuth: state.auth.isAuth
 })
 
-function WithAuthRedirect(Component: any) {
-    const RedirectComponent = (props: any) => {
-        if (!props.isAuth) {
+// Типизация HOC !
+function WithAuthRedirect<T>(Component: ComponentType<T>) {
+    const RedirectComponent = (props: mapStatePropsType) => {
+        let {isAuth, ...restProps} = props
+        if (!isAuth) {
             // на 6 версии router-dom
             // return <Navigate to={'/login'}/>
             return <Redirect to={'/login'}/>
         }
-        return <Component{...props}/>
+        return <Component{...restProps as T}/>
     }
     let ConnectedAuthRedirectComponent = connect(mapStateToProps)(RedirectComponent)
     return ConnectedAuthRedirectComponent
