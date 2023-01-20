@@ -3,6 +3,7 @@ import s from "./ProfileInfo.module.css"
 import image  from "../../../img/picture.jpg"
 import {profileType} from '../../../redux/profile-reducer';
 import Preloader from '../../common/Preloader/Preloader';
+import ProfileStatus from './ProfileStatus';
 type ProfileInfoType ={
     profile:profileType|null
 }
@@ -14,13 +15,14 @@ function ProfileInfo(props:ProfileInfoType) {
         return (
 
             <div >
-                <img src={image} alt={'картинка'} className={s.img}/>
+                {/*<img src={image} alt={'картинка'} className={s.img}/>*/}
                 {props.profile.photos.large?<img src={props.profile.photos.large} />:""}
 
 
 
 
                 <div className={s.content}>
+<ProfileStatus status={"Hello"}/>
                     <div>{props.profile.fullName}</div>
                     <div>{props.profile.aboutMe}</div>
                     <div>{props.profile.lookingForAJob}</div>
