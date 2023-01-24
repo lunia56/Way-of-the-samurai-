@@ -1,7 +1,7 @@
 import React from 'react';
 import Profile from './Profile';
 import {connect} from 'react-redux';
-import {getUserProfile, profileType} from '../../redux/profile-reducer';
+import {getUserProfile, getUserStatus, profileType, updateUserStatus} from '../../redux/profile-reducer';
 import {AppStateType, DispatchType} from '../../redux/redux-store';
 import {Redirect, RouteComponentProps, withRouter} from 'react-router-dom';
 import WithAuthRedirect from '../../HOC/withAuthRedirect';
@@ -17,18 +17,18 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
             userId = '2'
         }
         this.props.getUserProfile(userId)
+        this.props.getUserStatus(userId)
     }
 
 
+    render() {
+        return (
 
-render()
-{
-    return (
-
-        <div>
-            <Profile profile={this.props.profile}/>
-        </div>);
-}
+            <div>
+                <Profile profile={this.props.profile} status={this.props.status}
+                         updateUserStatus={this.props.updateUserStatus} />
+            </div>);
+    }
 }
 
 
@@ -38,15 +38,21 @@ type PathParamsType = {
 }
 type mapStateToPropsType = {
     profile: null | profileType
+    status: null | string
 }
 type mapDispatchToPropsType = {
     getUserProfile: (id: string) => void
+    getUserStatus: (id: string) => void
+    updateUserStatus: (status: null |string) => void
 }
 let mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
-    profile: state.profilePage.profile
+    profile: state.profilePage.profile,
+    status: state.profilePage.status
 })
 let mapDispatchToProps = (dispatch: DispatchType): mapDispatchToPropsType => ({
-    getUserProfile: (id: string) => dispatch(getUserProfile(id))
+    getUserProfile: (id: string) => dispatch(getUserProfile(id)),
+    getUserStatus: (id: string) => dispatch(getUserStatus(id)),
+    updateUserStatus: (status: null |string) => dispatch(updateUserStatus(status)),
 })
 //так выглядит типизация withRouter
 export type OwnPropsType = mapStateToPropsType & mapDispatchToPropsType
@@ -62,4 +68,4 @@ type ProfileContainerPropsType = RouteComponentProps<PathParamsType> & OwnPropsT
 
 // после рефакторинга
 // функция compose позволяет создать цепочку вызовов функций, результат выполнений первой функции помещая е следующую в конвейере
-export default compose<React.ComponentType>(connect(mapStateToProps, mapDispatchToProps),withRouter,WithAuthRedirect)(ProfileContainer)
+export default compose<React.ComponentType>(connect(mapStateToProps, mapDispatchToProps), withRouter, WithAuthRedirect)(ProfileContainer)

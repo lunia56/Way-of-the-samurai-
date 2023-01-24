@@ -13,6 +13,7 @@ export const UserAPI = {
         return instance.get<GetUserResponceType>(`/users?page=${currentPage}&count=${pageSize}`)
             .then(res => res.data)
     }
+
 }
 export const  followUnFollowAPI = {
     follow: (id: number) => {
@@ -24,13 +25,19 @@ export const  followUnFollowAPI = {
 }
 export const AuthIPI ={
     me: () => {
-        return instance.get<AuthResponceType<AuthResponceDataType>>(`/auth/me`)
+        return instance.get<ResponceType<AuthResponceDataType>>(`/auth/me`)
     }
 }
 export const ProfileAPI = {
     getProfilePage: (userId: string) => {
         return instance.get(`/profile/${userId}`)
     },
+    getProfileStatus:(userId:string)=>{
+        return instance.get<string>(`/profile/status/${userId}`)
+},
+    updateProfileStatus:(status:null|string)=>{
+        return instance.put(`/profile/status`,{status})
+    }
 }
 
 
@@ -59,7 +66,7 @@ type  GetUserResponceType = {
     error: string
 }
 
-type AuthResponceType<T> = {
+type ResponceType<T> = {
     data: T
     resultCode: number
     messages: string []
