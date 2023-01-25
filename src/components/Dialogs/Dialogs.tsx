@@ -6,6 +6,7 @@ import {AddItemForm} from '../HelpComponent/AddItemForm';
 import {DialogsPropsType} from './DialogsContainer';
 import { Redirect} from 'react-router-dom';
 import WithAuthRedirect from '../../HOC/withAuthRedirect';
+import {AddMessageForm} from './AddMessageForm';
 
 
 
@@ -35,7 +36,8 @@ function Dialogs(props: DialogsPropsType) {
                 </div>
                 <div className={s.messages}>
                     <div>{messagesElements}</div>
-                    <div><AddItemForm AddItem={onSendMessageClick} title={'Send'} placeholder={'Напишите сообщение...'}/></div>
+                    {/*<div><AddItemForm AddItem={onSendMessageClick} title={'Send'} placeholder={'Напишите сообщение...'}/></div>*/}
+                    <div><AddMessageForm addMessage={onSendMessageClick}/></div>
                 </div>
             </div>
 
@@ -44,3 +46,5 @@ function Dialogs(props: DialogsPropsType) {
 }
 
 export default Dialogs
+
+

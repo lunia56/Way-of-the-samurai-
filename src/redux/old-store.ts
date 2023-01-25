@@ -1,19 +1,18 @@
-import {AddPostActionType, SetUserProfileAT, UpdatePostTextActionType} from './profile-reducer';
-
-import {
-    AddMessageActionType,
-
-} from './dialog-reducer';
-import {
-    FollowUserAT,
-    SelectPageAT,
-    setTotalCountAT,
-    SetUsersAT,
-    ToggleFetchingAT,
-    toggleFollowingInProgress,
-    UnFollowUserAT,
-} from './users-reducer';
-
+import React from 'react';
+// import {
+//     AddMessageActionType,
+//
+// } from './dialog-reducer';
+// import {
+//     FollowUserAT,
+//     SelectPageAT,
+//     setTotalCountAT,
+//     SetUsersAT,
+//     ToggleFetchingAT,
+//     toggleFollowingInProgress,
+//     UnFollowUserAT,
+// } from './users-reducer';
+//
 
 
 

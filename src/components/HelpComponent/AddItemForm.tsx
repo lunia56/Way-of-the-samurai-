@@ -10,7 +10,7 @@ export function AddItemForm(props: AddItemFormPropsType) {
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
 
-
+    console.log('AddITemForm')
     const onClickAddItem = () => {
         const trimmedTitle = title.trim()
         if (trimmedTitle) {

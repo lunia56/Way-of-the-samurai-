@@ -33,18 +33,14 @@ export type contactsType = {
 }
 export type AddPostActionType = {
     type: 'ADD-POST'
-}
-export type UpdatePostTextActionType = {
-    type: 'UPDATE-NEW-POST-TEXT'
-    newPostText: string
+    postMessage: string
 }
 export type SetUserProfileAT = ReturnType<typeof SetUserProfileAC>
 export type SetUserStatusAT = ReturnType<typeof SetUserStatusAC>
 export type InitialStateProfileType = {
     posts: Array<PostType>
-    newPostText: string
     profile: null | profileType
-    status:  string
+    status: string
 }
 let initialState: InitialStateProfileType = {
     posts: [
@@ -55,7 +51,6 @@ let initialState: InitialStateProfileType = {
         {id: v1(), message: '!', likesCount: 15},
         {id: v1(), message: '?', likesCount: 15}
     ],
-    newPostText: '',
     profile: null,
     status: ""
 }
@@ -64,17 +59,13 @@ export const profileReducer = (state: InitialStateProfileType = initialState, ac
         case ADD_POST:
             const newPost: PostType = {
                 id: v1(),
-                message: state.newPostText,
+                message: action.postMessage,
                 likesCount: 0
             };
-            return {...state, posts: [newPost, ...state.posts], newPostText: ""};
-
-        case UPDATE_NEW_POST_TEXT:
-            return {...state, newPostText: action.newPostText}
+            return {...state, posts: [newPost, ...state.posts]};
         case 'SET_USER_PROFILE':
             return {...state, profile: action.profile}
         case 'SET_USER_STATUS':
-            debugger
             return {...state, status: action.status}
         default:
             return state
@@ -82,17 +73,7 @@ export const profileReducer = (state: InitialStateProfileType = initialState, ac
     }
 }
 
-export const AddPostActionCreator = (): AddPostActionType => {
-    return {
-        type: ADD_POST
-    }
-}
-export const ChangePostTextActionCreator = (newPostText: string): UpdatePostTextActionType => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        newPostText: newPostText
-    }
-}
+export const AddPostActionCreator = (postMessage: string): AddPostActionType => ({type: ADD_POST, postMessage})
 export const SetUserProfileAC = (profile: profileType) => ({type: 'SET_USER_PROFILE', profile} as const)
 export const SetUserStatusAC = (status: string) => ({type: 'SET_USER_STATUS', status} as const)
 
@@ -110,12 +91,9 @@ export const getUserStatus = (userId: string) => (dispatch: DispatchType) => {
         })
 }
 export const updateUserStatus = (status: string) => (dispatch: DispatchType) => {
-    debugger
     ProfileAPI.updateProfileStatus(status)
         .then(res => {
             if (res.data.resultCode === 0) {
-                console.log(res.data.data)
-                debugger
                 dispatch(SetUserStatusAC(status))
             }
         })

@@ -26,6 +26,12 @@ export const  followUnFollowAPI = {
 export const AuthIPI ={
     me: () => {
         return instance.get<ResponceType<AuthResponceDataType>>(`/auth/me`)
+    },
+    logIn:(loginData:loginDataType)=>{
+        return instance.post<ResponceType<any>>(`/auth/login`,loginData)
+    },
+    logOut:()=>{
+        return instance.delete<ResponceType<any>>(`/auth/login`)
     }
 }
 export const ProfileAPI = {
@@ -70,6 +76,12 @@ type ResponceType<T> = {
     data: T
     resultCode: number
     messages: string []
+}
+export type loginDataType = {
+    email:string
+    password:string
+    rememberMe:boolean
+    captcha?:boolean
 }
 type AuthResponceDataType = {
     id: number

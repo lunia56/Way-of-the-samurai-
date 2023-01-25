@@ -1,5 +1,5 @@
 import {v1} from 'uuid';
-import {AuthIPI} from '../API/API';
+import {AuthIPI, loginDataType} from '../API/API';
 import {DispatchType} from './redux-store';
 
 
@@ -37,6 +37,14 @@ export const getAuthUserData = ()=>(dispatch:DispatchType)=>{
             if (res.data.resultCode === 0) {
                 let {id,login, email} = res.data.data
                 dispatch(SetAuthUserDataAC(id,login,email))
+            }
+        })
+}
+export const logIn = (loginData:loginDataType)=>(dispatch:DispatchType)=>{
+    AuthIPI.logIn(loginData)
+        .then(res => {
+            if (res.data.resultCode === 0) {
+
             }
         })
 }

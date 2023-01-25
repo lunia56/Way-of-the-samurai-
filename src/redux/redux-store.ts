@@ -4,7 +4,6 @@ import {
     profileReducer,
     SetUserProfileAT,
     SetUserStatusAT,
-    UpdatePostTextActionType
 } from './profile-reducer';
 import {AddMessageActionType, dialogReducer} from './dialog-reducer';
 import {sidebarReducer} from './sidebar-reducer';
@@ -37,7 +36,6 @@ export default store
 export type ActionType =
     AddPostActionType
     | SetUserProfileAT
-    | UpdatePostTextActionType
     | AddMessageActionType
     | FollowUserAT
     | UnFollowUserAT
