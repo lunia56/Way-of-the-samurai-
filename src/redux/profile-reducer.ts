@@ -44,7 +44,7 @@ export type InitialStateProfileType = {
     posts: Array<PostType>
     newPostText: string
     profile: null | profileType
-    status: null | string
+    status:  string
 }
 let initialState: InitialStateProfileType = {
     posts: [
@@ -57,7 +57,7 @@ let initialState: InitialStateProfileType = {
     ],
     newPostText: '',
     profile: null,
-    status: null
+    status: ""
 }
 export const profileReducer = (state: InitialStateProfileType = initialState, action: ActionType): InitialStateProfileType => {
     switch (action.type) {
@@ -74,6 +74,7 @@ export const profileReducer = (state: InitialStateProfileType = initialState, ac
         case 'SET_USER_PROFILE':
             return {...state, profile: action.profile}
         case 'SET_USER_STATUS':
+            debugger
             return {...state, status: action.status}
         default:
             return state
@@ -108,9 +109,14 @@ export const getUserStatus = (userId: string) => (dispatch: DispatchType) => {
             dispatch(SetUserStatusAC(res.data))
         })
 }
-export const updateUserStatus = (status: null|string) => (dispatch: DispatchType) => {
+export const updateUserStatus = (status: string) => (dispatch: DispatchType) => {
+    debugger
     ProfileAPI.updateProfileStatus(status)
         .then(res => {
-            dispatch(SetUserStatusAC(res.data.data))
+            if (res.data.resultCode === 0) {
+                console.log(res.data.data)
+                debugger
+                dispatch(SetUserStatusAC(status))
+            }
         })
 }

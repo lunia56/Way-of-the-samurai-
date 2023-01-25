@@ -26,7 +26,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
             <div>
                 <Profile profile={this.props.profile} status={this.props.status}
-                         updateUserStatus={this.props.updateUserStatus} />
+                         updateUserStatus={this.props.updateUserStatus}/>
             </div>);
     }
 }
@@ -38,12 +38,12 @@ type PathParamsType = {
 }
 type mapStateToPropsType = {
     profile: null | profileType
-    status: null | string
+    status: string
 }
 type mapDispatchToPropsType = {
     getUserProfile: (id: string) => void
     getUserStatus: (id: string) => void
-    updateUserStatus: (status: null |string) => void
+    updateUserStatus: (status: string) => void
 }
 let mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
     profile: state.profilePage.profile,
@@ -52,7 +52,7 @@ let mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
 let mapDispatchToProps = (dispatch: DispatchType): mapDispatchToPropsType => ({
     getUserProfile: (id: string) => dispatch(getUserProfile(id)),
     getUserStatus: (id: string) => dispatch(getUserStatus(id)),
-    updateUserStatus: (status: null |string) => dispatch(updateUserStatus(status)),
+    updateUserStatus: (status: string) => dispatch(updateUserStatus(status)),
 })
 //так выглядит типизация withRouter
 export type OwnPropsType = mapStateToPropsType & mapDispatchToPropsType

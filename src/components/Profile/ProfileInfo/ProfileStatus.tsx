@@ -6,8 +6,8 @@ import Preloader from '../../common/Preloader/Preloader';
 import login from '../../Login/Login';
 
 type ProfileStatusType = {
-    status: null | string
-    updateUserStatus: (status: null | string) => void
+    status: string
+    updateUserStatus: (status: string) => void
 }
 
 class ProfileStatus extends React.Component<ProfileStatusType> {
@@ -18,14 +18,18 @@ class ProfileStatus extends React.Component<ProfileStatusType> {
     }
 
     activeEditMode = () => {
+        console.log(this.state)
+
         this.setState({editMode: true})
     }
     deactiveEditMode = () => {
+        console.log(this.state)
         this.setState({editMode: false})
         this.props.updateUserStatus(this.state.status)
     }
     onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
-        this.setState(e.currentTarget.value)
+        console.log(e.currentTarget.value)
+        this.setState({status: e.currentTarget.value})
     }
 
     render() {
@@ -38,7 +42,7 @@ class ProfileStatus extends React.Component<ProfileStatusType> {
             </span>
                 : <div>
                     <input onChange={(e) => this.onStatusChange(e)} type="text"
-                           value={this.state.status?this.state.status:"undefined"}
+                           value={this.state.status}
                            onBlur={this.deactiveEditMode} autoFocus={true}/>
                 </div>}
             </div>);
