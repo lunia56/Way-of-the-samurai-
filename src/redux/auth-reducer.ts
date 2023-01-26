@@ -18,7 +18,7 @@ let initialState = {
 export const authReducer = (state: InitialStateAuthType = initialState, action: AuthActionType): InitialStateAuthType => {
     switch (action.type) {
         case 'SET_USER_DATA':
-            return {...state, ...action.data, isAuth: true}
+            return {...state, ...action.payload}
         default:
             return state
 
@@ -26,9 +26,9 @@ export const authReducer = (state: InitialStateAuthType = initialState, action: 
 }
 
 export type AuthActionType = ReturnType<typeof SetAuthUserDataAC>
-export const SetAuthUserDataAC = (id: number, login: string, email: string) => {
+export const SetAuthUserDataAC = (id: number|null, login: string|null, email: string|null,isAuth:boolean) => {
     return {
-        type: 'SET_USER_DATA', data: {id, login, email}
+        type: 'SET_USER_DATA', payload: {id, login, email,isAuth}
     } as const
 }
 export const getAuthUserData = ()=>(dispatch:DispatchType)=>{
@@ -36,7 +36,7 @@ export const getAuthUserData = ()=>(dispatch:DispatchType)=>{
         .then(res => {
             if (res.data.resultCode === 0) {
                 let {id,login, email} = res.data.data
-                dispatch(SetAuthUserDataAC(id,login,email))
+                dispatch(SetAuthUserDataAC(id,login,email,true))
             }
         })
 }
@@ -44,7 +44,15 @@ export const logIn = (loginData:loginDataType)=>(dispatch:DispatchType)=>{
     AuthIPI.logIn(loginData)
         .then(res => {
             if (res.data.resultCode === 0) {
-
+                dispatch(getAuthUserData())
+            }
+        })
+}
+export const logOut = ()=>(dispatch:DispatchType)=>{
+    AuthIPI.logOut()
+        .then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(SetAuthUserDataAC(null,null,null,false))
             }
         })
 }

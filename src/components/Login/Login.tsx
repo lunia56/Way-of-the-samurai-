@@ -1,16 +1,27 @@
 import React from 'react';
 import {FieldValues, useForm} from 'react-hook-form';
+import {getAuthUserData, logIn, logOut} from '../../redux/auth-reducer';
+import {connect} from 'react-redux';
+import {AppStateType, DispatchType} from '../../redux/redux-store';
+import {loginDataType} from '../../API/API';
+import {Redirect} from 'react-router-dom';
+
 type Inputs = {
-    login:string
-    password:string
-    rememberMe:boolean
+    email: string
+    password: string
+    rememberMe: boolean
 }
-function Login() {
+
+function Login(props: LoginPropsType) {
     const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm<Inputs>({mode: 'onBlur'})
 
-    const onSubmit = (data:FieldValues) => {
-        console.log(data)
+    const onSubmit = (data: any) => {
+        props.logIn(data)
         reset()
+    }
+    
+    if(props.isAuth){
+        return <Redirect to={'/profile'}/>
     }
     return (
         <div>
@@ -19,7 +30,7 @@ function Login() {
 
                 <div><input type="text"
                             placeholder={'Login'}
-                            {...register("login", {
+                            {...register("email", {
                                 required: "Поле обязательно к заполнению",
                                 minLength: {
                                     value: 3,
@@ -27,7 +38,7 @@ function Login() {
                                 }
                             })}/></div>
 
-                <div style={{color: 'red'}}>{errors?.login && <p>{errors.login.message}</p>}</div>
+                <div style={{color: 'red'}}>{errors?.email && <p>{errors.email.message}</p>}</div>
 
                 <div><input type="text"
                             placeholder={'Password'}
@@ -51,4 +62,17 @@ function Login() {
     );
 }
 
-export default Login;
+type mapStateToPropsType = {
+    isAuth: boolean
+}
+type mapDispathToProps = {
+    logIn: (loginData: loginDataType) => void
+}
+const mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
+    isAuth: state.auth.isAuth
+})
+const mapDispathToProps = (dispatch: DispatchType): mapDispathToProps => ({
+    logIn: (loginData: loginDataType) => dispatch(logIn(loginData))
+})
+type LoginPropsType = mapStateToPropsType & mapDispathToProps
+export default connect(mapStateToProps, mapDispathToProps)(Login);
