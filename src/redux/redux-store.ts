@@ -18,13 +18,15 @@ import {
 } from './users-reducer';
 import {AuthActionType, authReducer} from './auth-reducer';
 import thunk, {ThunkDispatch} from 'redux-thunk';
+import {appReducer, InitializedActionType} from './app-reducer';
 
 const rootReduсer = combineReducers({
     profilePage: profileReducer,
     dialogPage: dialogReducer,
     sidebar: sidebarReducer,
     usersPage: usersReducer,
-    auth: authReducer
+    auth: authReducer,
+    app:appReducer
 })
 
 export type AppStateType = ReturnType<typeof rootReduсer>
@@ -46,5 +48,6 @@ export type ActionType =
     | ReturnType<typeof toggleFollowingInProgress>
     | AuthActionType
     | SetUserStatusAT
+    | InitializedActionType
 // @ts-ignore
 window.store = store

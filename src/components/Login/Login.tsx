@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import {AppStateType, DispatchType} from '../../redux/redux-store';
 import {loginDataType} from '../../API/API';
 import {Redirect} from 'react-router-dom';
+import styles from '../Login/Login.module.css'
+import {UseFormSetError} from 'react-hook-form/dist/types/form';
 
 type Inputs = {
     email: string
@@ -13,14 +15,16 @@ type Inputs = {
 }
 
 function Login(props: LoginPropsType) {
-    const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm<Inputs>({mode: 'onBlur'})
+    const {register, handleSubmit, reset, setError,clearErrors, formState: {errors, isValid}} = useForm<Inputs>({mode: 'onBlur'})
 
     const onSubmit = (data: any) => {
-        props.logIn(data)
+        props.logIn(data,setError)
         reset()
+        clearErrors('password')
+
     }
-    
-    if(props.isAuth){
+
+    if (props.isAuth) {
         return <Redirect to={'/profile'}/>
     }
     return (
@@ -48,12 +52,12 @@ function Login(props: LoginPropsType) {
                                     minLength: {
                                         value: 5,
                                         message: 'Минимальная длина 5 символов'
+
                                     }
                                 })}/></div>
-                <div style={{color: 'red'}}>{errors?.password && <p>{errors.password.message}</p>}</div>
+                <div style={{color: 'red'}}>{errors?.password && <p className={styles.errorMessage}>{errors.password.message}</p>}</div>
 
                 <div><input type="checkbox" {...register('rememberMe')}/> Remember me</div>
-
                 <div>
                     <input type="submit" disabled={!isValid} value={'Log in'}/>
                 </div>
@@ -66,13 +70,13 @@ type mapStateToPropsType = {
     isAuth: boolean
 }
 type mapDispathToProps = {
-    logIn: (loginData: loginDataType) => void
+    logIn: (loginData: loginDataType,setError:any) => void
 }
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
     isAuth: state.auth.isAuth
 })
 const mapDispathToProps = (dispatch: DispatchType): mapDispathToProps => ({
-    logIn: (loginData: loginDataType) => dispatch(logIn(loginData))
+    logIn: (loginData: loginDataType,setError) => dispatch(logIn(loginData,setError))
 })
 type LoginPropsType = mapStateToPropsType & mapDispathToProps
 export default connect(mapStateToProps, mapDispathToProps)(Login);

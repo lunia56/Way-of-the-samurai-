@@ -13,8 +13,12 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
     componentDidMount() {
         let userId = this.props.match.params.userId
-        if (!userId) {
-            userId = '2'
+        if (!userId ) {
+            //@ts-ignore
+            userId = this.props.autoryzedUserId
+            if (!userId) {
+                // this.props.history.push('/login')
+            }
         }
         this.props.getUserProfile(userId)
         this.props.getUserStatus(userId)
@@ -39,6 +43,8 @@ type PathParamsType = {
 type mapStateToPropsType = {
     profile: null | profileType
     status: string
+    autoryzedUserId: null | string
+    isAuth: boolean
 }
 type mapDispatchToPropsType = {
     getUserProfile: (id: string) => void
@@ -47,7 +53,9 @@ type mapDispatchToPropsType = {
 }
 let mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
     profile: state.profilePage.profile,
-    status: state.profilePage.status
+    status: state.profilePage.status,
+    autoryzedUserId: state.auth.userId,
+    isAuth: state.auth.isAuth
 })
 let mapDispatchToProps = (dispatch: DispatchType): mapDispatchToPropsType => ({
     getUserProfile: (id: string) => dispatch(getUserProfile(id)),
