@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {AppStateType, DispatchType} from '../../redux/redux-store';
 import {
-    follow, getUsers, onPageChanget,
+    follow, requestUsers, onPageChanget,
     SelectPage,
     setTotalCount,
     SetUsers, unFollow,
@@ -15,6 +15,13 @@ import withAuthRedirect from '../../HOC/withAuthRedirect';
 import {compose} from 'redux';
 import WithAuthRedirect from '../../HOC/withAuthRedirect';
 import Dialogs from '../Dialogs/Dialogs';
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize, getTotalUserCount,
+    getUsers
+} from '../../redux/selectors/userSelectors';
 
 
 type MapStatePropsType = {
@@ -61,14 +68,24 @@ class UsersAPI extends React.Component<UsersPropsType> {
 };
 
 
+// const mapStateToProps = (state: AppStateType): MapStatePropsType => {
+//     return {
+//         users: state.usersPage.users,
+//         pageSize: state.usersPage.pageSize,
+//         totalUserCount: state.usersPage.totalUserCount,
+//         currentPage: state.usersPage.currentPage,
+//         isFetching: state.usersPage.isFetching,
+//         followingInProgress: state.usersPage.followingInProgress
+//     }
+// }
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUserCount: state.usersPage.totalUserCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUserCount: getTotalUserCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state),
     }
 }
 const mapDispatchToProps = (dispatch: DispatchType): MapDispatchPropsType => {
@@ -89,7 +106,7 @@ const mapDispatchToProps = (dispatch: DispatchType): MapDispatchPropsType => {
             dispatch(unFollow(userId))
         },
         getUser: (currentPage: number, pageSize: number) => {
-            dispatch(getUsers(currentPage, pageSize))
+            dispatch(requestUsers(currentPage, pageSize))
         },
         onPageChanget: (pageNumber: number, currentPage: number, pageSize: number) => {
             dispatch(onPageChanget(pageNumber, currentPage, pageSize))

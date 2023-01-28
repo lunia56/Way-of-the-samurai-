@@ -28,9 +28,9 @@ export type InitializedActionType = ReturnType<typeof initializedSuccess>
 export const initializedSuccess = () => ({type: 'INITIALIZED_SUCCESS'} as const)
 export const inicializeApp = () => (dispatch: DispatchType) => {
     let promise = dispatch(getAuthUserData())
-        .then(
-            alert('Hello')
-        )
+    promise.then(()=>
+        dispatch(initializedSuccess())
+    )
 
 }
 

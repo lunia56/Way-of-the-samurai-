@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Navbar from './components/Navbar/Navbar';
 import './index.css';
 import {Route, withRouter} from "react-router-dom";
@@ -18,7 +18,7 @@ import {AppStateType, DispatchType} from './redux/redux-store';
 import Preloader from './components/common/Preloader/Preloader';
 
 
-class App extends React.Component<AppPropsType> {
+class App extends Component<AppPropsType> {
     componentDidMount() {
         this.props.inicializeApp()
     }

@@ -62,9 +62,9 @@ export const ToggleIsFetching = (isFetching: boolean) => ({type: "TOGGLE_IS_FETC
 export const toggleFollowingInProgress = (isFetching: boolean,userId:number) => ({type: "TOGGLE_FOLLOWING_IN_PROGRESS", isFetching,userId}) as const
 
 
-export const getUsers = (currentPage:number,pageSize:number)=>(dispatch:DispatchType)=>{
+export const requestUsers = (page:number, pageSize:number)=>(dispatch:DispatchType)=>{
     dispatch(ToggleIsFetching(true))
-        UserAPI.getUser(currentPage, pageSize)
+        UserAPI.getUser(page, pageSize)
             .then(res => {
                 dispatch(ToggleIsFetching(false))
                 console.log(res.items)
