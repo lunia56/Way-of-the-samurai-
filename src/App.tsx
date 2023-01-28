@@ -26,7 +26,7 @@ class App extends Component<AppPropsType> {
     render() {
         if (!this.props.initialized) {
             return <Preloader/>
-        } else {
+        }
             return (
 
                 <div className="app-wrapper">
@@ -51,8 +51,6 @@ class App extends Component<AppPropsType> {
 
             );
         }
-
-    }
 }
 
 type mapStateToPropsType = {
@@ -69,4 +67,4 @@ const mapDispatchToProps = (dispatch: DispatchType) => ({
     inicializeApp: () => dispatch(inicializeApp())
 })
 type AppPropsType = mapStateToPropsType & mapDispatchToPropsType
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);
+export default compose<React.ComponentType>(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);

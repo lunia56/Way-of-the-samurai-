@@ -5,7 +5,7 @@ import {UseFormSetError} from 'react-hook-form/dist/types/form';
 
 
 export type InitialStateAuthType = {
-    userId: null | string
+    userId: null | number
     email: null | string
     login: null | string
     isAuth: boolean
@@ -27,9 +27,9 @@ export const authReducer = (state: InitialStateAuthType = initialState, action: 
 }
 
 export type AuthActionType = ReturnType<typeof SetAuthUserDataAC>
-export const SetAuthUserDataAC = (id: number | null, login: string | null, email: string | null, isAuth: boolean) => {
+export const SetAuthUserDataAC = (userId: number | null, login: string | null, email: string | null, isAuth: boolean) => {
     return {
-        type: 'SET_USER_DATA', payload: {id, login, email, isAuth}
+        type: 'SET_USER_DATA', payload: {userId, login, email, isAuth}
     } as const
 }
 export const getAuthUserData = () => (dispatch: DispatchType) => {

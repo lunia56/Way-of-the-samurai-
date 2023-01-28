@@ -55,9 +55,12 @@ function Login(props: LoginPropsType) {
 
                                     }
                                 })}/></div>
-                <div style={{color: 'red'}}>{errors?.password && <p className={styles.errorMessage}>{errors.password.message}</p>}</div>
 
+                <div style={{color: 'red'}}>{Object.keys(errors).length && <p className={styles.errorMessage}>
+                    {errors.password?.message || errors.email?.message}</p>}</div>
                 <div><input type="checkbox" {...register('rememberMe')}/> Remember me</div>
+
+
                 <div>
                     <input type="submit" disabled={!isValid} value={'Log in'}/>
                 </div>
