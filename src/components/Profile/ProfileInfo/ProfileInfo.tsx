@@ -1,6 +1,5 @@
 import React from "react";
 import s from "./ProfileInfo.module.css"
-import image from "../../../img/picture.jpg"
 import {profileType} from '../../../redux/profile-reducer';
 import Preloader from '../../common/Preloader/Preloader';
 import ProfileStatus from './ProfileStatus';
@@ -11,24 +10,24 @@ type ProfileInfoType = {
     updateUserStatus:(status:string)=>void
 }
 
-function ProfileInfo(props: ProfileInfoType) {
+function ProfileInfo({profile,status,updateUserStatus}: ProfileInfoType) {
 
-    if (!props.profile) {
+    if (!profile) {
         return <Preloader/>
     }
     return (
 
         <div>
             {/*<img src={image} alt={'картинка'} className={s.img}/>*/}
-            {props.profile.photos.large ? <img src={props.profile.photos.large}/> : ""}
+            {profile.photos.large ? <img src={profile.photos.large}/> : ""}
 
 
             <div className={s.content}>
-                <ProfileStatus status={props.status}  updateUserStatus={props.updateUserStatus}/>
-                <div>{props.profile.fullName}</div>
-                <div>{props.profile.aboutMe}</div>
-                <div>{props.profile.lookingForAJob}</div>
-                <div>{props.profile.lookingForAJobDescription}</div>
+                <ProfileStatus status={status}  updateUserStatus={updateUserStatus}/>
+                <div>{profile.fullName}</div>
+                <div>{profile.aboutMe}</div>
+                <div>{profile.lookingForAJob}</div>
+                <div>{profile.lookingForAJobDescription}</div>
             </div>
         </div>);
 

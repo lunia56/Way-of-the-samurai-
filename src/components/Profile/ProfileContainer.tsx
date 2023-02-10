@@ -3,9 +3,8 @@ import Profile from './Profile';
 import {connect} from 'react-redux';
 import {getUserProfile, getUserStatus, profileType, updateUserStatus} from '../../redux/profile-reducer';
 import {AppStateType, DispatchType} from '../../redux/redux-store';
-import {Redirect, RouteComponentProps, withRouter} from 'react-router-dom';
+import {RouteComponentProps, withRouter} from 'react-router-dom';
 import WithAuthRedirect from '../../HOC/withAuthRedirect';
-import Dialogs from '../Dialogs/Dialogs';
 import {compose} from 'redux';
 
 

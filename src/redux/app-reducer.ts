@@ -26,11 +26,11 @@ export const appReducer = (state: InitialStateAppType = initialState, action: In
 export type InitializedActionType = ReturnType<typeof initializedSuccess>
 
 export const initializedSuccess = () => ({type: 'INITIALIZED_SUCCESS'} as const)
-export const inicializeApp = () => (dispatch: DispatchType) => {
-    let promise = dispatch(getAuthUserData())
-    promise.then(()=>
-        dispatch(initializedSuccess())
-    )
+export const inicializeApp = () => async (dispatch: DispatchType) => {
+
+    await dispatch(getAuthUserData())
+    dispatch(initializedSuccess())
+
 
 }
 

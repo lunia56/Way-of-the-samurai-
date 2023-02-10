@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Navbar from './components/Navbar/Navbar';
 import './index.css';
-import {Route, withRouter} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
@@ -16,8 +15,19 @@ import {connect} from 'react-redux';
 import {inicializeApp} from './redux/app-reducer';
 import {AppStateType, DispatchType} from './redux/redux-store';
 import Preloader from './components/common/Preloader/Preloader';
+import {Route, withRouter} from 'react-router-dom';
 
+export const PATH = {
+    Dialogs:'/dialogs',
+    Profile: '/profile',
+    Users:'/users',
+    News:'/news',
+    Music:'/music',
+    Settings:'/settings/settings',
+    Friends:'/friends',
+    Login:'/login'
 
+}
 class App extends Component<AppPropsType> {
     componentDidMount() {
         this.props.inicializeApp()
@@ -33,18 +43,18 @@ class App extends Component<AppPropsType> {
                     <HeaderContainer/>
                     <Navbar/>
                     <div className="app-wrapper-content">
-                        <Route /*exact*/ path="/dialogs" render={() =>
+                        <Route /*exact*/ path={PATH.Dialogs} render={() =>
                             <DialogsContainer/>}/>
                         {/* Ниже описано как передавать опциональный параметр в путь для того что бы затем его использовать для WithROUT*/}
-                        <Route path="/profile/:userId?" render={() =>
+                        <Route path={`${PATH.Profile}/:userId?`} render={() =>
                             <ProfileContainer/>}/>
-                        <Route path="/users" render={() =>
+                        <Route path={PATH.Users} render={() =>
                             <UsersContainer/>}/>
-                        <Route path="/news" render={News}/>
-                        <Route path="/music" render={Music}/>
-                        <Route path="/settings/settings" render={Settings}/>
-                        <Route path={"/friends"} render={() => <Friends/>}/>
-                        <Route path="/login" render={() =>
+                        <Route path={PATH.News} render={News}/>
+                        <Route path={PATH.Music} render={Music}/>
+                        <Route path={PATH.Settings} render={Settings}/>
+                        <Route path={PATH.Friends} render={() => <Friends/>}/>
+                        <Route path={PATH.Login} render={() =>
                             <Login/>}/>
                     </div>
                 </div>

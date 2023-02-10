@@ -1,12 +1,11 @@
 import React from 'react';
-import {FieldValues, useForm} from 'react-hook-form';
-import {getAuthUserData, logIn, logOut} from '../../redux/auth-reducer';
+import {useForm} from 'react-hook-form';
+import {logIn} from '../../redux/auth-reducer';
 import {connect} from 'react-redux';
 import {AppStateType, DispatchType} from '../../redux/redux-store';
 import {loginDataType} from '../../API/API';
 import {Redirect} from 'react-router-dom';
 import styles from '../Login/Login.module.css'
-import {UseFormSetError} from 'react-hook-form/dist/types/form';
 
 type Inputs = {
     email: string
@@ -58,6 +57,7 @@ function Login(props: LoginPropsType) {
 
                 <div style={{color: 'red'}}>{Object.keys(errors).length && <p className={styles.errorMessage}>
                     {errors.password?.message || errors.email?.message}</p>}</div>
+
                 <div><input type="checkbox" {...register('rememberMe')}/> Remember me</div>
 
 

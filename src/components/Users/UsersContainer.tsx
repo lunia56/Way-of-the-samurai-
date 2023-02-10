@@ -2,24 +2,25 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {AppStateType, DispatchType} from '../../redux/redux-store';
 import {
-    follow, requestUsers, onPageChanget,
+    follow,
+    onPageChanget,
+    requestUsers,
     SelectPage,
     setTotalCount,
-    SetUsers, unFollow,
+    SetUsers,
+    unFollow,
 } from '../../redux/users-reducer';
 import UserFunction from "./Users";
 import Preloader from '../common/Preloader/Preloader';
 import {UserType} from '../../API/API';
-import {Redirect} from 'react-router-dom';
-import withAuthRedirect from '../../HOC/withAuthRedirect';
-import {compose} from 'redux';
 import WithAuthRedirect from '../../HOC/withAuthRedirect';
-import Dialogs from '../Dialogs/Dialogs';
+import {compose} from 'redux';
 import {
     getCurrentPage,
     getFollowingInProgress,
     getIsFetching,
-    getPageSize, getTotalUserCount,
+    getPageSize,
+    getTotalUserCount,
     getUsers
 } from '../../redux/selectors/userSelectors';
 

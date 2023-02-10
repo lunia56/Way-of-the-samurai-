@@ -78,23 +78,17 @@ export const SetUserProfileAC = (profile: profileType) => ({type: 'SET_USER_PROF
 export const SetUserStatusAC = (status: string) => ({type: 'SET_USER_STATUS', status} as const)
 
 
-export const getUserProfile = (userId: string) => (dispatch: DispatchType) => {
-    ProfileAPI.getProfilePage(userId)
-        .then(res => {
-            dispatch(SetUserProfileAC(res.data))
-        })
+export const getUserProfile = (userId: string) => async (dispatch: DispatchType) => {
+    let response = await ProfileAPI.getProfilePage(userId)
+    dispatch(SetUserProfileAC(response.data))
 }
-export const getUserStatus = (userId: string) => (dispatch: DispatchType) => {
-    ProfileAPI.getProfileStatus(userId)
-        .then(res => {
-            dispatch(SetUserStatusAC(res.data))
-        })
+export const getUserStatus = (userId: string) => async (dispatch: DispatchType) => {
+    let response = await ProfileAPI.getProfileStatus(userId)
+    dispatch(SetUserStatusAC(response.data))
 }
-export const updateUserStatus = (status: string) => (dispatch: DispatchType) => {
-    ProfileAPI.updateProfileStatus(status)
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(SetUserStatusAC(status))
-            }
-        })
+export const updateUserStatus = (status: string) => async (dispatch: DispatchType) => {
+    let response = await ProfileAPI.updateProfileStatus(status)
+    if (response.data.resultCode === 0) {
+        dispatch(SetUserStatusAC(status))
+    }
 }

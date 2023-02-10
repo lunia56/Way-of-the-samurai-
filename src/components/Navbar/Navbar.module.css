@@ -5,11 +5,17 @@
 
 }
 
-.item a {
-    color: #919188;
-    text-decoration:none;
+
+.item {
+    padding: 5px;
+
+    color: black;
+    text-decoration: none;
 }
 
-.item a.active {
-    color: coral;
+.activeLink {
+    padding: 5px;
+
+    color: #5583e6;
+    text-decoration: none;
 }

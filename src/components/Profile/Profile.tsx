@@ -9,11 +9,11 @@ type ProfilePropsType = {
     updateUserStatus:(status: string)=>void
 }
 
-function Profile(props: ProfilePropsType) {
+function Profile({profile,status,updateUserStatus}: ProfilePropsType) {
     return (
 
         <div>
-            <ProfileInfo profile={props.profile} status={props.status} updateUserStatus={props.updateUserStatus}/>
+            <ProfileInfo profile={profile} status={status} updateUserStatus={updateUserStatus}/>
             <PostsContainer/>
         </div>);
 }

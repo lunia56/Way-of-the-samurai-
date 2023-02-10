@@ -2,6 +2,7 @@ import React from 'react';
 import classes from "./Navbar.module.css"
 import {NavLink} from "react-router-dom";
 
+
 function Navbar() {
     return (
         <nav className={classes.sidebar}>
@@ -27,9 +28,6 @@ function Navbar() {
                 <NavLink to="/friends" activeClassName={classes.active}>Friends</NavLink>
             </div>
 
-            {/*<div className={classes.item}>*/}
-            {/*    <NavLink to="/test" activeClassName={classes.active}>test</NavLink>*/}
-            {/*</div>*/}
         </nav>);
 }
 
