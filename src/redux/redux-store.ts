@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, createStore} from 'redux';
+import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import {
     AddPostActionType,
     profileReducer,
@@ -31,7 +31,11 @@ const rootReduсer = combineReducers({
 
 export type AppStateType = ReturnType<typeof rootReduсer>
 export type DispatchType = ThunkDispatch<AppStateType, unknown, ActionType>
-let store = createStore(rootReduсer, applyMiddleware(thunk));
+// let store = createStore(rootReduсer, applyMiddleware(thunk));
+const composeEnhancers = (window as any)['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose || compose;
+
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__||compose;
+const store = createStore (rootReduсer, composeEnhancers (applyMiddleware (thunk)))
 export default store
 
 
