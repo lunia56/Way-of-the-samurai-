@@ -5,8 +5,9 @@ import {NavLink} from 'react-router-dom';
 import axios from 'axios';
 import {followUnFollowAPI, UserType} from '../../API/API';
 import {follow} from '../../redux/users-reducer';
-import Paginator from '../common/Paginator';
 import User from './User';
+import {Paginator} from '../common/Paginator/Paginator';
+import Preloader from '../common/Preloader/Preloader';
 
 
 type UsersPropsType = {
@@ -18,6 +19,7 @@ type UsersPropsType = {
     follow: (userId: number) => void
     unFollow: (userId: number) => void
     followingInProgress: number[]
+    isFetching:boolean
 }
 
 function Users({
@@ -29,18 +31,21 @@ function Users({
                    follow,
                    unFollow,
                    followingInProgress,
+                   isFetching
                }: UsersPropsType) {
+    const portionSize = 10
 
     return <>
-        <Paginator totalUserCount={totalUserCount} pageSize={pageSize} currentPage={currentPage}
-                   onPageChanged={onPageChanged}/>
+        <Paginator totalItemsCount={totalUserCount} pageSize={pageSize} currentPage={currentPage}
+                   onPageChanged={onPageChanged} portionSize={portionSize}/>
+        {isFetching ? <Preloader/> :
+            users.map((el: UserType) => <User key={el.id}
+                                               user={el}
+                                               follow={follow}
+                                               unFollow={unFollow}
+                                               followingInProgress={followingInProgress}/>
+                ) }
 
-        {users.map((el: UserType) => <User key={el.id}
-                                           user={el}
-                                           follow={follow}
-                                           unFollow={unFollow}
-                                           followingInProgress={followingInProgress}/>
-        )}
     </>
 }
 

@@ -52,33 +52,25 @@ class UsersAPI extends React.Component<UsersPropsType> {
     }
 
     onPageChanged = (pageNumber: number) => {
+        // const {pageSize} = this.props
+        // this.props.getUser(pageNumber, pageSize)
         this.props.onPageChanget(pageNumber, this.props.currentPage, this.props.pageSize)
     }
 
     render() {
         return <>
-            {this.props.isFetching ? <Preloader/> :
-                <UserFunction users={this.props.users} totalUserCount={this.props.totalUserCount}
-                              pageSize={this.props.pageSize}
-                              currentPage={this.props.currentPage} onPageChanged={this.onPageChanged}
-                              follow={this.props.follow} unFollow={this.props.unFollow}
-                              followingInProgress={this.props.followingInProgress}/>}
+            <UserFunction users={this.props.users} totalUserCount={this.props.totalUserCount}
+                          pageSize={this.props.pageSize}
+                          currentPage={this.props.currentPage} onPageChanged={this.onPageChanged}
+                          follow={this.props.follow} unFollow={this.props.unFollow}
+                          followingInProgress={this.props.followingInProgress}
+                          isFetching={this.props.isFetching }/>
 
         </>
     }
 };
 
 
-// const mapStateToProps = (state: AppStateType): MapStatePropsType => {
-//     return {
-//         users: state.usersPage.users,
-//         pageSize: state.usersPage.pageSize,
-//         totalUserCount: state.usersPage.totalUserCount,
-//         currentPage: state.usersPage.currentPage,
-//         isFetching: state.usersPage.isFetching,
-//         followingInProgress: state.usersPage.followingInProgress
-//     }
-// }
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         users: getUsers(state),
@@ -122,5 +114,5 @@ export type UsersPropsType = MapStatePropsType
 // export default connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
 
 // функция compose позволяет создать цепочку вызовов функций, результат выполнений первой функции помещая е следующую в конвейере
-export default compose<React.ComponentType>(connect(mapStateToProps, mapDispatchToProps),WithAuthRedirect)(UsersAPI)
+export default compose<React.ComponentType>(connect(mapStateToProps, mapDispatchToProps), WithAuthRedirect)(UsersAPI)
 
