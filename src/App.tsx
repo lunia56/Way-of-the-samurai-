@@ -1,13 +1,11 @@
-import React, {Component} from 'react';
+import React, {Component, Suspense} from 'react';
 import Navbar from './components/Navbar/Navbar';
 import './index.css';
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import Friends from './components/Friends/Friends';
-import DialogsContainer from './components/Dialogs/DialogsContainer';
-import UsersContainer from './components/Users/UsersContainer';
-import ProfileContainer from './components/Profile/ProfileContainer';
+
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
 import {compose} from 'redux';
@@ -16,18 +14,27 @@ import {inicializeApp} from './redux/app-reducer';
 import {AppStateType, DispatchType} from './redux/redux-store';
 import Preloader from './components/common/Preloader/Preloader';
 import {Route, withRouter} from 'react-router-dom';
+import {lazy} from 'react';
+import {SuspenseWrapper} from './components/common/SuspenseWrapper';
+// import DialogsContainer from './components/Dialogs/DialogsContainer';
+// import ProfileContainer from './components/Profile/ProfileContainer';
+// import UsersContainer from './components/Users/UsersContainer';
+const DialogsContainer = lazy(() => import('./components/Dialogs/DialogsContainer'))
+const ProfileContainer = lazy(() => import('./components/Profile/ProfileContainer'))
+const UsersContainer = lazy(() => import('./components/Users/UsersContainer'))
 
 export const PATH = {
-    Dialogs:'/dialogs',
+    Dialogs: '/dialogs',
     Profile: '/profile',
-    Users:'/users',
-    News:'/news',
-    Music:'/music',
-    Settings:'/settings/settings',
-    Friends:'/friends',
-    Login:'/login'
+    Users: '/users',
+    News: '/news',
+    Music: '/music',
+    Settings: '/settings/settings',
+    Friends: '/friends',
+    Login: '/login'
 
 }
+
 class App extends Component<AppPropsType> {
     componentDidMount() {
         this.props.inicializeApp()
@@ -37,30 +44,29 @@ class App extends Component<AppPropsType> {
         if (!this.props.initialized) {
             return <Preloader/>
         }
-            return (
+        return (
 
-                <div className="app-wrapper">
-                    <HeaderContainer/>
-                    <Navbar/>
-                    <div className="app-wrapper-content">
-                        <Route /*exact*/ path={PATH.Dialogs} render={() =>
-                            <DialogsContainer/>}/>
-                        {/* Ниже описано как передавать опциональный параметр в путь для того что бы затем его использовать для WithROUT*/}
-                        <Route path={`${PATH.Profile}/:userId?`} render={() =>
-                            <ProfileContainer/>}/>
-                        <Route path={PATH.Users} render={() =>
-                            <UsersContainer/>}/>
-                        <Route path={PATH.News} render={News}/>
-                        <Route path={PATH.Music} render={Music}/>
-                        <Route path={PATH.Settings} render={Settings}/>
-                        <Route path={PATH.Friends} render={() => <Friends/>}/>
-                        <Route path={PATH.Login} render={() =>
-                            <Login/>}/>
-                    </div>
+            <div className="app-wrapper">
+                <HeaderContainer/>
+                <Navbar/>
+                <div className="app-wrapper-content">
+                    <Route /*exact*/ path={PATH.Dialogs}
+                                     render={() => <SuspenseWrapper children={<DialogsContainer/>}/>}/>
+                    {/* Ниже описано как передавать опциональный параметр в путь для того что бы затем его использовать для WithROUT*/}
+                    <Route path={`${PATH.Profile}/:userId?`}
+                           render={() => <SuspenseWrapper children={<ProfileContainer/>}/>}/>
+                    <Route path={PATH.Users} render={() => <SuspenseWrapper children={<UsersContainer/>}/>}/>
+                    <Route path={PATH.News} render={News}/>
+                    <Route path={PATH.Music} render={Music}/>
+                    <Route path={PATH.Settings} render={Settings}/>
+                    <Route path={PATH.Friends} render={() => <Friends/>}/>
+                    <Route path={PATH.Login} render={() =>
+                        <Login/>}/>
                 </div>
+            </div>
 
-            );
-        }
+        );
+    }
 }
 
 type mapStateToPropsType = {
