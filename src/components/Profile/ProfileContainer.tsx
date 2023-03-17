@@ -1,7 +1,7 @@
 import React from 'react';
 import Profile from './Profile';
 import {connect} from 'react-redux';
-import {getUserProfile, getUserStatus, profileType, updateUserStatus} from '../../redux/profile-reducer';
+import {getUserProfile, getUserStatus, profileType, savePhoto, updateUserStatus} from '../../redux/profile-reducer';
 import {AppStateType, DispatchType} from '../../redux/redux-store';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import WithAuthRedirect from '../../HOC/withAuthRedirect';
@@ -9,19 +9,28 @@ import {compose} from 'redux';
 
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
-
-    componentDidMount() {
-        let userId = this.props.match.params.userId
-
-        if (!userId ) {
-            userId = String(this.props.autoryzedUserId)
-
+    refreshProfile() {
+        let userId: string | number = this.props.match.params.userId;
+        if (!userId) {
+            userId = Number(this.props.autoryzedUserId)
             if (!userId) {
-                this.props.history.push('/login')
+                this.props.history.push("/login")
             }
         }
-        this.props.getUserProfile(userId)
-        this.props.getUserStatus(userId)
+        this.props.getUserProfile(String(userId))
+        this.props.getUserStatus(String(userId))
+    }
+
+    componentDidMount() {
+        this.refreshProfile()
+
+    }
+
+    componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
+        if (this.props.match.params.userId != prevProps.match.params.userId) {
+            this.refreshProfile()
+        }
+
     }
 
 
@@ -29,8 +38,10 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         return (
 
             <div>
-                <Profile profile={this.props.profile} status={this.props.status}
-                         updateUserStatus={this.props.updateUserStatus}/>
+                <Profile profile={this.props.profile} isOwner={!this.props.match.params.userId}
+                         status={this.props.status}
+                         updateUserStatus={this.props.updateUserStatus}
+                         savePhoto={this.props.savePhoto}/>
             </div>);
     }
 }
@@ -49,6 +60,7 @@ type mapStateToPropsType = {
 type mapDispatchToPropsType = {
     getUserProfile: (id: string) => void
     getUserStatus: (id: string) => void
+    savePhoto: () => void
     updateUserStatus: (status: string) => void
 }
 let mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
@@ -57,11 +69,8 @@ let mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
     autoryzedUserId: state.auth.userId,
     isAuth: state.auth.isAuth
 })
-let mapDispatchToProps = (dispatch: DispatchType): mapDispatchToPropsType => ({
-    getUserProfile: (id: string) => dispatch(getUserProfile(id)),
-    getUserStatus: (id: string) => dispatch(getUserStatus(id)),
-    updateUserStatus: (status: string) => dispatch(updateUserStatus(status)),
-})
+
+
 //так выглядит типизация withRouter
 export type OwnPropsType = mapStateToPropsType & mapDispatchToPropsType
 type ProfileContainerPropsType = RouteComponentProps<PathParamsType> & OwnPropsType
@@ -76,4 +85,4 @@ type ProfileContainerPropsType = RouteComponentProps<PathParamsType> & OwnPropsT
 
 // после рефакторинга
 // функция compose позволяет создать цепочку вызовов функций, результат выполнений первой функции помещая е следующую в конвейере
-export default compose<React.ComponentType>(connect(mapStateToProps, mapDispatchToProps), withRouter, WithAuthRedirect)(ProfileContainer)
+export default compose<React.ComponentType>(connect(mapStateToProps, {getUserProfile,getUserStatus,updateUserStatus,savePhoto}), withRouter, WithAuthRedirect)(ProfileContainer)
