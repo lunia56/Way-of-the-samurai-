@@ -9,13 +9,14 @@ type ProfilePropsType = {
     status: string
     updateUserStatus:(status: string)=>void
     savePhoto:()=>void
+    saveProfile:(formData:any)=>void
 }
 
-function Profile({profile,status,updateUserStatus,isOwner,savePhoto}: ProfilePropsType) {
+function Profile({profile,status,updateUserStatus,isOwner,savePhoto,saveProfile}: ProfilePropsType) {
     return (
 
         <div>
-            <ProfileInfo profile={profile} status={status} updateUserStatus={updateUserStatus} isOwner={isOwner} savePhoto={savePhoto}/>
+            <ProfileInfo profile={profile} status={status} updateUserStatus={updateUserStatus} isOwner={isOwner} savePhoto={savePhoto} saveProfile={saveProfile}/>
             <PostsContainer/>
         </div>);
 }

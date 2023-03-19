@@ -53,6 +53,11 @@ export const ProfileAPI = {
             }
         })
     },
+    saveProfile(profile:ProfileType){
+        return instance.put(`profile/`, {
+            profile:profile
+        })
+    }
 }
 
 
@@ -96,4 +101,25 @@ type AuthResponceDataType = {
     id: number
     email: string
     login: string
+}
+export type ProfileType={
+    userId?: number | null | undefined,
+    lookingForAJob?: boolean | undefined,
+    lookingForAJobDescription?: string | undefined,
+    fullName: string |undefined,
+    contacts:object,
+    github: string,
+    vk: string,
+    facebook: string,
+    instagram:string,
+    twitter: string,
+    website:string,
+    youtube: string,
+    mainLink?: string | undefined,
+    photos:PhotosType
+    aboutMe:string
+}
+export type PhotosType={
+    small: string | null,
+    large: string | null
 }

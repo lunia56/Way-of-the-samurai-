@@ -1,10 +1,11 @@
 import {v1} from 'uuid';
-import {ActionType, DispatchType} from './redux-store';
-import {ProfileAPI} from '../API/API';
+import {ActionType, AppStateType, DispatchType} from './redux-store';
+import {ProfileAPI, ProfileType} from '../API/API';
 
 
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+//const SAVE_PROFILE_SUCCESS ='SAVE_PROFILE_SUCCESS'
 
 export type PostType = {
     id: string
@@ -72,6 +73,9 @@ export const profileReducer = (state: InitialStateProfileType = initialState, ac
             //@ts-ignore
             return {...state, profile:{...state.profile, photos:action.photos}}
         }
+        {/*  case SAVE_PROFILE_SUCCESS: {
+            return {...state, profile:action.profile}
+        }*/}
         default:
             return state
 
@@ -87,6 +91,14 @@ export const savePhotoSuccess = (photos:any) => {
         photos
     } as const
 }
+{/*export const saveProfileSuccess = (profile:ProfileType) => {
+    return {
+        type: SAVE_PROFILE_SUCCESS,
+        profile
+    } as const
+}*/}
+
+
 
 export const getUserProfile = (userId: string) => async (dispatch: DispatchType) => {
     let response = await ProfileAPI.getProfilePage(userId)
@@ -106,5 +118,30 @@ export const savePhoto = (file: any) => async (dispatch: DispatchType) => {
     let response = await ProfileAPI.savePhoto(file)
     if (response.data.resultCode === 0) {
         dispatch(savePhotoSuccess(response.data.data.photos))
+    }
+}
+
+
+
+export const saveProfile = (profile: ProfileType) => async (dispatch: DispatchType,getState:()=>AppStateType) => {
+    const userId = getState().auth.userId
+    let response = await ProfileAPI.saveProfile(profile)
+    if (response.data.resultCode === 0) {
+        // @ts-ignore
+        dispatch(getUserProfile(userId))
+    }
+    else {
+        const errorMessage = response.data.messages.length > 0 ? response.data.messages[0] : "Some error"
+
+        //find contact with error
+        const errorArray = response.data.messages[0].toLowerCase().split("->")
+        let contactWithError = errorArray[1].slice(0, -1)
+        if (contactWithError === "mainlink") {
+            contactWithError = "mainLink"
+        }
+        const obj: any = {}
+        obj[contactWithError] = errorMessage
+
+        //dispatch(stopSubmit("edit_profile", {"contacts": obj}))
     }
 }

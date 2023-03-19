@@ -1,20 +1,25 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, FC, useState} from "react";
 import s from "./ProfileInfo.module.css"
 import {profileType} from '../../../redux/profile-reducer';
 import Preloader from '../../common/Preloader/Preloader';
 import ProfileStatus from './ProfileStatus';
 import userPhoto from './../../../img/monkey.jpg'
+import {ProfileDataForm} from './ProfileDataForm';
+import {ProfileData} from './ProfileData';
+import {reset} from 'redux-form';
 
 type ProfileInfoType = {
     profile: profileType | null
     status: string
     updateUserStatus: (status: string) => void
     isOwner: boolean
-    savePhoto:()=>void
+    savePhoto: () => void
+    saveProfile:(data:any)=>void
 }
 
-function ProfileInfo({profile, status, updateUserStatus, isOwner,savePhoto}: ProfileInfoType) {
 
+function ProfileInfo({profile, status, updateUserStatus, isOwner, savePhoto,saveProfile}: ProfileInfoType) {
+    const [editMode, setEditMode] = useState(false)
     if (!profile) {
         return <Preloader/>
     }
@@ -25,6 +30,11 @@ function ProfileInfo({profile, status, updateUserStatus, isOwner,savePhoto}: Pro
             savePhoto(e.target.files[0])
         }
     }
+    const onSubmit = (data: any) => {
+        setEditMode(true)
+        // onSubmit(data)
+        saveProfile(data)
+    }
     return (
 
         <div>
@@ -32,16 +42,17 @@ function ProfileInfo({profile, status, updateUserStatus, isOwner,savePhoto}: Pro
             <img src={profile.photos.large || userPhoto} style={{maxWidth: 250, height: 250, borderRadius: 50}}/>
 
             {isOwner && <input type={'file'} accept={'image/*'} onChange={onMainPhotoSelected}/>}
-            <div className={s.content}>
-                <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
-                <div>{profile.fullName}</div>
-                <div>{profile.aboutMe}</div>
-                <div>{profile.lookingForAJob}</div>
-                <div>{profile.lookingForAJobDescription}</div>
-            </div>
-        </div>);
 
+            {editMode?<ProfileDataForm profile={profile}  onSubmit={onSubmit}/>:<ProfileData profile={profile} goToEditMode={()=>setEditMode(true)} isOwner={isOwner}/>}
+
+            <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
+
+
+        </div>);
 
 }
 
 export default ProfileInfo;
+
+
+

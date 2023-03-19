@@ -41,7 +41,8 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
                 <Profile profile={this.props.profile} isOwner={!this.props.match.params.userId}
                          status={this.props.status}
                          updateUserStatus={this.props.updateUserStatus}
-                         savePhoto={this.props.savePhoto}/>
+                         savePhoto={this.props.savePhoto}
+                         saveProfile={this.props.saveProfile}/>
             </div>);
     }
 }
@@ -62,6 +63,7 @@ type mapDispatchToPropsType = {
     getUserStatus: (id: string) => void
     savePhoto: () => void
     updateUserStatus: (status: string) => void
+    saveProfile: (formData: any) => void
 }
 let mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
     profile: state.profilePage.profile,
@@ -85,4 +87,4 @@ type ProfileContainerPropsType = RouteComponentProps<PathParamsType> & OwnPropsT
 
 // после рефакторинга
 // функция compose позволяет создать цепочку вызовов функций, результат выполнений первой функции помещая е следующую в конвейере
-export default compose<React.ComponentType>(connect(mapStateToProps, {getUserProfile,getUserStatus,updateUserStatus,savePhoto}), withRouter, WithAuthRedirect)(ProfileContainer)
+export default compose<React.ComponentType>(connect(mapStateToProps, {getUserProfile,getUserStatus,updateUserStatus,savePhoto,saveProfile}), withRouter, WithAuthRedirect)(ProfileContainer)
