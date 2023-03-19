@@ -9,7 +9,7 @@ type ProfileDataPropsType = {
     isOwner:boolean
 
 }
-const Contact: FC<{ contactTitle: string, contactValue: string | null }> = ({contactTitle, contactValue}) => {
+export const Contact: FC<{ contactTitle: string, contactValue: string | null }> = ({contactTitle, contactValue}) => {
     return <div><b>{contactTitle}</b>: <b>{contactValue}</b>:</div>
 }
 

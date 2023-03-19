@@ -126,6 +126,7 @@ export const savePhoto = (file: any) => async (dispatch: DispatchType) => {
 export const saveProfile = (profile: ProfileType) => async (dispatch: DispatchType,getState:()=>AppStateType) => {
     const userId = getState().auth.userId
     let response = await ProfileAPI.saveProfile(profile)
+    debugger
     if (response.data.resultCode === 0) {
         // @ts-ignore
         dispatch(getUserProfile(userId))
