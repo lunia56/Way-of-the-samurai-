@@ -13,7 +13,7 @@ import {connect} from 'react-redux';
 import {inicializeApp} from './redux/app-reducer';
 import {AppStateType, DispatchType} from './redux/redux-store';
 import Preloader from './components/common/Preloader/Preloader';
-import {Route, withRouter} from 'react-router-dom';
+import {Redirect, Route, withRouter} from 'react-router-dom';
 import {lazy} from 'react';
 import {SuspenseWrapper} from './components/common/SuspenseWrapper';
 // import DialogsContainer from './components/Dialogs/DialogsContainer';
@@ -31,13 +31,23 @@ export const PATH = {
     Music: '/music',
     Settings: '/settings/settings',
     Friends: '/friends',
-    Login: '/login'
+    Login: '/login',
+    NotFound:'/404'
 
 }
 
 class App extends Component<AppPropsType> {
+    catchAllAnhandledError=(promiseRejectionEvent:PromiseRejectionEvent)=>{
+alert('Some Error occured')
+}
     componentDidMount() {
         this.props.inicializeApp()
+        // так можно ловить все ошибки которые падают в асинхронном коде
+        window.addEventListener('unhandledrejection',this.catchAllAnhandledError)
+    }
+    componentWillUnmount() {
+        window.removeEventListener('unhandledrejection',this.catchAllAnhandledError)
+
     }
 
     render() {
@@ -50,6 +60,8 @@ class App extends Component<AppPropsType> {
                 <HeaderContainer/>
                 <Navbar/>
                 <div className="app-wrapper-content">
+                    <Route exact path='/' render={() =>
+                        <Redirect to={PATH.Profile}/>}/>
                     <Route /*exact*/ path={PATH.Dialogs}
                                      render={() => <SuspenseWrapper children={<DialogsContainer/>}/>}/>
                     {/* Ниже описано как передавать опциональный параметр в путь для того что бы затем его использовать для WithROUT*/}
@@ -62,6 +74,10 @@ class App extends Component<AppPropsType> {
                     <Route path={PATH.Friends} render={() => <Friends/>}/>
                     <Route path={PATH.Login} render={() =>
                         <Login/>}/>
+                    <Route path={PATH.NotFound} render={() =>
+                       <div>Error 404 Not Found</div>}/>
+                    <Route path={'*'} render={() =>
+                        <Redirect to={PATH.NotFound}/>}/>
                 </div>
             </div>
 

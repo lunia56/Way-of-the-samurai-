@@ -93,8 +93,13 @@ export const getUserProfile = (userId: string) => async (dispatch: DispatchType)
 }
 
 export const getUserStatus = (userId: string) => async (dispatch: DispatchType) => {
-    let response = await ProfileAPI.getProfileStatus(userId)
-    dispatch(SetUserStatusAC(response.data))
+    try {
+        let response = await ProfileAPI.getProfileStatus(userId)
+        dispatch(SetUserStatusAC(response.data))
+    }
+  catch (e){
+
+  }
 }
 export const updateUserStatus = (status: string) => async (dispatch: DispatchType) => {
     let response = await ProfileAPI.updateProfileStatus(status)

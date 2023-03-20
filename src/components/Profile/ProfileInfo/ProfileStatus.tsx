@@ -28,26 +28,22 @@ class ProfileStatus extends React.Component<ProfileStatusType> {
         this.setState({status: e.currentTarget.value})
     }
 
-    componentDidUpdate(prevProps: Readonly<ProfileStatusType>, prevState: Readonly<{}>, snapshot?: any) {
-        if(prevProps.status!==this.state.status){
-            this.setState({status:this.props.status})
-        }
-    }
-
     render() {
 
         return (
-
-            <div>{!this.state.editMode
-                ? <span onDoubleClick={this.activeEditMode}>
+            <div style={{display:'flex'}}><b>Статус: </b>
+                <div>{!this.state.editMode
+                    ? <span onDoubleClick={this.activeEditMode}>
                 {this.props.status}
             </span>
-                : <div>
-                    <input onChange={(e) => this.onStatusChange(e)} type="text"
-                           value={this.state.status}
-                           onBlur={this.deactiveEditMode} autoFocus={true}/>
-                </div>}
-            </div>);
+                    : <div>
+                        <input onChange={(e) => this.onStatusChange(e)} type="text"
+                               value={this.state.status}
+                               onBlur={this.deactiveEditMode} autoFocus={true}/>
+                    </div>}
+                </div>
+            </div>
+            );
 
 
     }

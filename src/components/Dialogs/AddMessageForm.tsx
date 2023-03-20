@@ -12,7 +12,6 @@ export const AddMessageForm = ({addMessage}:AddMessagePropsType) => {
         addMessage(data.message)
         reset()
     }
-    console.log('AddMessageForm')
     return <>
         <form onSubmit={handleSubmit(onSubmit)}>
             <input type="text"  placeholder={'Введите сообщение...'} {...register('message', {
