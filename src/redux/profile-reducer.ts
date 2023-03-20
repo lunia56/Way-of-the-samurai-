@@ -3,9 +3,6 @@ import {ActionType, AppStateType, DispatchType} from './redux-store';
 import {ProfileAPI, ProfileType} from '../API/API';
 
 
-const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-//const SAVE_PROFILE_SUCCESS ='SAVE_PROFILE_SUCCESS'
 
 export type PostType = {
     id: string
@@ -58,7 +55,7 @@ let initialState: InitialStateProfileType = {
 }
 export const profileReducer = (state: InitialStateProfileType = initialState, action: ActionType): InitialStateProfileType => {
     switch (action.type) {
-        case ADD_POST:
+        case 'ADD-POST':
             const newPost: PostType = {
                 id: v1(),
                 message: action.postMessage,
@@ -71,39 +68,30 @@ export const profileReducer = (state: InitialStateProfileType = initialState, ac
             return {...state, status: action.status}
         case 'SAVE_PHOTO_SUCCESS': {
             //@ts-ignore
-            return {...state, profile:{...state.profile, photos:action.photos}}
+            return {...state, profile: {...state.profile, photos: action.photos}}
         }
-        {/*  case SAVE_PROFILE_SUCCESS: {
-            return {...state, profile:action.profile}
-        }*/}
         default:
             return state
 
     }
 }
 
-export const AddPostActionCreator = (postMessage: string): AddPostActionType => ({type: ADD_POST, postMessage})
+export const AddPostActionCreator = (postMessage: string): AddPostActionType => ({type: 'ADD-POST', postMessage})
 export const SetUserProfileAC = (profile: profileType) => ({type: 'SET_USER_PROFILE', profile} as const)
 export const SetUserStatusAC = (status: string) => ({type: 'SET_USER_STATUS', status} as const)
-export const savePhotoSuccess = (photos:any) => {
+export const savePhotoSuccess = (photos: any) => {
     return {
         type: 'SAVE_PHOTO_SUCCESS',
         photos
     } as const
 }
-{/*export const saveProfileSuccess = (profile:ProfileType) => {
-    return {
-        type: SAVE_PROFILE_SUCCESS,
-        profile
-    } as const
-}*/}
-
 
 
 export const getUserProfile = (userId: string) => async (dispatch: DispatchType) => {
     let response = await ProfileAPI.getProfilePage(userId)
     dispatch(SetUserProfileAC(response.data))
 }
+
 export const getUserStatus = (userId: string) => async (dispatch: DispatchType) => {
     let response = await ProfileAPI.getProfileStatus(userId)
     dispatch(SetUserStatusAC(response.data))
@@ -122,16 +110,12 @@ export const savePhoto = (file: any) => async (dispatch: DispatchType) => {
 }
 
 
-
-export const saveProfile = (profile: ProfileType) => async (dispatch: DispatchType,getState:()=>AppStateType) => {
+export const saveProfile = (profile: ProfileType, setError: any) => async (dispatch: DispatchType, getState: () => AppStateType) => {
     const userId = getState().auth.userId
     let response = await ProfileAPI.saveProfile(profile)
-    debugger
     if (response.data.resultCode === 0) {
-        // @ts-ignore
-        dispatch(getUserProfile(userId))
-    }
-    else {
+        dispatch(getUserProfile(userId + ''))
+    } else {
         const errorMessage = response.data.messages.length > 0 ? response.data.messages[0] : "Some error"
 
         //find contact with error
@@ -142,7 +126,14 @@ export const saveProfile = (profile: ProfileType) => async (dispatch: DispatchTy
         }
         const obj: any = {}
         obj[contactWithError] = errorMessage
-
-        //dispatch(stopSubmit("edit_profile", {"contacts": obj}))
+        console.log(`contacts log`, {
+            type: "server",
+            message: contactWithError,
+        })
+        setError(`contacts`, {
+            type: "server",
+            message: `${contactWithError}: ${Object.values(obj)[0]}`
+        })
+        return Promise.reject()
     }
 }

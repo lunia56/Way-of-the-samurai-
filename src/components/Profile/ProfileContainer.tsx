@@ -63,7 +63,7 @@ type mapDispatchToPropsType = {
     getUserStatus: (id: string) => void
     savePhoto: () => void
     updateUserStatus: (status: string) => void
-    saveProfile: (formData: any) => void
+    saveProfile: (formData: any,setError:any) => void
 }
 let mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
     profile: state.profilePage.profile,

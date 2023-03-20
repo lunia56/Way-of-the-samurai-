@@ -1,7 +1,8 @@
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import {
     AddPostActionType,
-    profileReducer, savePhotoSuccess, savePhotoSuccessType,
+    profileReducer,
+    savePhotoSuccessType,
     SetUserProfileAT,
     SetUserStatusAT,
 } from './profile-reducer';
@@ -12,7 +13,8 @@ import {
     SelectPageAT,
     setTotalCountAT,
     SetUsersAT,
-    ToggleFetchingAT, toggleFollowingInProgress,
+    ToggleFetchingAT,
+    toggleFollowingInProgress,
     UnFollowUserAT,
     usersReducer
 } from './users-reducer';
@@ -31,10 +33,8 @@ const rootReduсer = combineReducers({
 
 export type AppStateType = ReturnType<typeof rootReduсer>
 export type DispatchType = ThunkDispatch<AppStateType, unknown, ActionType>
-// let store = createStore(rootReduсer, applyMiddleware(thunk));
 const composeEnhancers = (window as any)['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose || compose;
 
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__||compose;
 const store = createStore(rootReduсer, composeEnhancers(applyMiddleware(thunk)))
 export default store
 

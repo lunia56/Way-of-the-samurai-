@@ -9,7 +9,7 @@ type ProfilePropsType = {
     status: string
     updateUserStatus:(status: string)=>void
     savePhoto:()=>void
-    saveProfile:(formData:any)=>void
+    saveProfile:(formData:any,setError:any)=>void
 }
 
 function Profile({profile,status,updateUserStatus,isOwner,savePhoto,saveProfile}: ProfilePropsType) {

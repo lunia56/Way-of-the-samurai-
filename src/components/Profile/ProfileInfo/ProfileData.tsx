@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import s from './ProfileInfo.module.css';
-import ProfileStatus from './ProfileStatus';
 import {profileType} from '../../../redux/profile-reducer';
 
 type ProfileDataPropsType = {
@@ -10,7 +9,7 @@ type ProfileDataPropsType = {
 
 }
 export const Contact: FC<{ contactTitle: string, contactValue: string | null }> = ({contactTitle, contactValue}) => {
-    return <div><b>{contactTitle}</b>: <b>{contactValue}</b>:</div>
+    return <div><b>{contactTitle}</b>: <a href={contactValue?contactValue:''}>{contactValue}</a></div>
 }
 
 export const ProfileData:FC<ProfileDataPropsType> = ({profile,goToEditMode,isOwner}) => {
