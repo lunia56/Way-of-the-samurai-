@@ -32,6 +32,9 @@ export const AuthIPI ={
     },
     logOut:()=>{
         return instance.delete<ResponceType<any>>(`/auth/login`)
+    },
+    getCaptchaURL:()=>{
+        return instance.get(`security/get-captcha-url`)
     }
 }
 export const ProfileAPI = {
@@ -95,7 +98,7 @@ export type loginDataType = {
     email:string
     password:string
     rememberMe:boolean
-    captcha?:boolean
+    captcha?:string|null
 }
 type AuthResponceDataType = {
     id: number
